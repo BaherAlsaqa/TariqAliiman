@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "656265000907",
+    "firebase_url": "https://tariqaliiman-9667f.firebaseio.com",
+    "project_id": "tariqaliiman-9667f",
+    "storage_bucket": "tariqaliiman-9667f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656265000907:android:b033b37fa90c9278",
+        "android_client_info": {
+          "package_name": "com.tariqaliiman.tariqaliiman"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656265000907-b6mge11d1vhtup7kenh5enbtjj2cg90g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tariqaliiman.tariqaliiman",
+            "certificate_hash": "08bba4d3067e127ef45c1c1784a1c67d5f4b37a6"
+          }
+        },
+        {
+          "client_id": "656265000907-2bh0n87jm2l270drasbio1f4g4gka1v0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCE8baUI7ygxJEG9iNleEqx32E96jNd32Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656265000907-2bh0n87jm2l270drasbio1f4g4gka1v0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

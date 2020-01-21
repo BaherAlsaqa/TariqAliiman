@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              tools:context=".SetAlarmActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/AppTheme.Toolbar">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/elmasri"
+            android:text="@string/set_alarm"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text18sp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <ScrollView
+        android:layout_width="@dimen/card_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/adView1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin">
+
+            <CheckBox
+                android:id="@+id/alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:button="@null"
+                android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+                android:padding="@dimen/space"
+                android:text="@string/turn_on_alarm" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fajr"
+                    style="@style/Widget.AlarmRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_half"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:fontFamily="@font/elmasri"
+                    android:singleLine="true"
+                    android:tag="1"
+                    android:text="@string/fajr" />
+
+                <TextView
+                    android:id="@+id/dhuhr"
+                    style="@style/Widget.AlarmRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_half"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:fontFamily="@font/elmasri"
+                    android:singleLine="true"
+                    android:tag="1"
+                    android:text="@string/dhuhr" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/asr"
+                    style="@style/Widget.AlarmRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_half"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:fontFamily="@font/elmasri"
+                    android:singleLine="true"
+                    android:tag="1"
+                    android:text="@string/asr" />
+
+                <TextView
+                    android:id="@+id/maghrib"
+                    style="@style/Widget.AlarmRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_half"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:fontFamily="@font/elmasri"
+                    android:singleLine="true"
+                    android:tag="1"
+                    android:text="@string/maghrib" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/isha"
+                    style="@style/Widget.AlarmRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_half"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:fontFamily="@font/elmasri"
+                    android:singleLine="true"
+                    android:tag="1"
+                    android:text="@string/isha" />
+
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/ramadan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+                android:paddingStart="@dimen/space"
+                android:paddingTop="@dimen/space"
+                android:paddingEnd="@dimen/space"
+                android:text="@string/set_alarm_ramadan"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_x2"
+                android:fontFamily="@font/elmasri"
+                android:paddingStart="@dimen/space"
+                android:paddingEnd="@dimen/space"
+                android:text="@string/set_alarm_ramadan_explain"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/suhoor_alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:fontFamily="@font/elmasri"
+                    android:padding="@dimen/space"
+                    android:text="@string/set_alarm_notify_before_suhoor" />
+
+                <Spinner
+                    android:id="@+id/suhoor_offset"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/alarm_before"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/iftar_alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:fontFamily="@font/elmasri"
+                    android:padding="@dimen/space"
+                    android:text="@string/set_alarm_notify_before_iftar" />
+
+                <Spinner
+                    android:id="@+id/iftar_offset"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/alarm_before"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space"
+                android:fontFamily="@font/elmasri"
+                android:text="@string/set_alarm_ringtone_options"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:fontFamily="@font/elmasri" />
+            <!--                android:background="?attr/separatorColor"-->
+
+
+            <CheckBox
+                android:id="@+id/adhan_ringtone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+                android:padding="@dimen/space"
+                android:text="@string/set_alarm_use_adhan" />
+
+            <CheckBox
+                android:id="@+id/random_ringtone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+                android:padding="@dimen/space"
+                android:text="@string/set_alarm_random_ringtone" />
+
+            <CheckBox
+                android:id="@+id/ascending_alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableStart="?android:attr/listChoiceIndicatorMultiple"
+                android:paddingStart="@dimen/space"
+                android:paddingTop="@dimen/space"
+                android:paddingEnd="@dimen/space"
+                android:text="@string/set_alarm_ascending" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_x2"
+                android:fontFamily="@font/elmasri"
+                android:paddingStart="@dimen/space"
+                android:paddingEnd="@dimen/space"
+                android:text="@string/set_alarm_ascending_explain" />
+
+            <TextView
+                android:id="@+id/ringtone"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_button_background_grey_sharp"
+                android:clickable="true"
+                android:fontFamily="@font/elmasri"
+                android:gravity="center_vertical"
+                android:padding="@dimen/space"
+                android:text="@string/set_alarm_select_ringtone"
+                android:textColor="?android:attr/textColorPrimary" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        app:adSize="BANNER"
+        app:adUnitId="@string/mainBanner4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

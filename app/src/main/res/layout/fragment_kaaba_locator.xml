@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/map_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.KaabaLocatorFragment"
+    android:background="@color/white">
+
+    <TextView
+            android:fontFamily="@font/elmasri"
+        android:id="@+id/help"
+        android:layout_margin="@dimen/space_x2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/permission_write_external_required"/>
+
+    <TextView
+            android:fontFamily="@font/elmasri"
+        android:id="@+id/grant"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/space"
+        android:background="@drawable/bg_button_background"
+        android:layout_margin="@dimen/space"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:layout_marginStart="@dimen/space_x2"
+        android:layout_gravity="start"
+        android:gravity="center_vertical"
+        android:text="@string/button_continue"/>
+</LinearLayout>

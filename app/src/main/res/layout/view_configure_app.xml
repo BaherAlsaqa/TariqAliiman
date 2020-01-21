@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:id="@+id/card_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    card_view:cardElevation="0dp"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margintop20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="480dp"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/space_x2"
+            android:paddingEnd="@dimen/space"
+            android:paddingStart="@dimen/space"
+            android:paddingTop="@dimen/space_x3">
+
+            <TextView
+            android:fontFamily="@font/elmasri"
+                style="@style/Widget.CardTitle.Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_x3"
+                android:text="@string/config_title"/>
+
+            <TextView
+            android:fontFamily="@font/elmasri"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space"
+                android:text="@string/explain_default_config"/>
+
+            <TextView
+            android:fontFamily="@font/elmasri"
+                android:id="@+id/configure_now"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space"
+                android:background="@drawable/bg_button_background"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_marginBottom="@dimen/space"
+                android:layout_marginTop="@dimen/space"
+                android:gravity="center_vertical"
+                android:text="@string/button_configure_now"/>
+
+            <TextView
+            android:fontFamily="@font/elmasri"
+                android:id="@+id/use_default"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:padding="@dimen/space"
+                android:background="@drawable/bg_button_background"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_margin="0dp"
+                android:gravity="center_vertical"
+                android:text="@string/button_use_default"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.cardview.widget.CardView>

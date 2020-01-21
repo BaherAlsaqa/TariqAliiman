@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    card_view:cardElevation="0dp"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/view_card_title" />
+
+            <LinearLayout
+                style="@style/Widget.TimeRow.Separator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/fajr" />
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:id="@+id/fajr"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:tag="@string/fajr" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Widget.TimeRow.Separator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/sunrise" />
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:id="@+id/sunrise"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:tag="@string/sunrise" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Widget.TimeRow.Separator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/dhuhr" />
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:id="@+id/dhuhr"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:tag="@string/dhuhr" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Widget.TimeRow.Separator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/asr" />
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:id="@+id/asr"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:tag="@string/asr" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Widget.TimeRow.Separator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/maghrib" />
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:id="@+id/maghrib"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:tag="@string/maghrib" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Widget.TimeRow.Separator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/sunset" />
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:id="@+id/sunset"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:tag="@string/sunset" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Widget.TimeRow.Separator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/isha" />
+
+                <TextView
+            android:fontFamily="@font/elmasri"
+                    android:id="@+id/isha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:tag="Isha" />
+            </LinearLayout>
+
+            <TextView
+            android:fontFamily="@font/elmasri"
+                android:id="@+id/alarm"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:padding="@dimen/space"
+                android:background="@drawable/bg_button_background"
+                android:layout_margin="@dimen/space"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_gravity="start"
+                android:text="@string/button_alarm_on" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.cardview.widget.CardView>
