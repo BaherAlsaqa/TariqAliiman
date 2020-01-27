@@ -161,7 +161,7 @@ public class MenuActivity extends AppCompatActivity {
         appSharedPreferences = new AppSharedPreferences(getApplicationContext());
 
         n = appSharedPreferences.readBoolean(Contains.notifi_helper);
-        if (n == true) {
+        if (n) {
             Log.d(Contains.log+"notifi", "Notification true");
             //notification run
             NotificationHelper.scheduleRepeatingRTCNotification(getApplicationContext(), hours, minutes);

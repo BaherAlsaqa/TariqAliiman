@@ -69,7 +69,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Notification repeatedNotification = buildLocalNotification(context, pendingIntent, content).build();
 
         //Send local notification
-        NotificationHelper.getNotificationManager(context).notify(NotificationHelper.ALARM_TYPE_RTC, repeatedNotification);
+        //NotificationHelper.getNotificationManager(context).notify(NotificationHelper.ALARM_TYPE_RTC, repeatedNotification);
 
         NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createChannel(manager);
