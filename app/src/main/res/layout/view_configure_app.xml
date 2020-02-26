@@ -36,6 +36,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/space"
+                android:textColor="@color/gray1"
+                android:textSize="@dimen/text14sp"
                 android:text="@string/explain_default_config"/>
 
             <TextView
@@ -47,10 +49,11 @@
                 android:background="@drawable/bg_button_background"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                android:textSize="12sp"
+                android:textSize="@dimen/text14sp"
                 android:layout_marginBottom="@dimen/space"
                 android:layout_marginTop="@dimen/space"
                 android:gravity="center_vertical"
+                android:textColor="@color/black"
                 android:text="@string/button_configure_now"/>
 
             <TextView
@@ -62,9 +65,10 @@
                 android:background="@drawable/bg_button_background"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                android:textSize="12sp"
+                android:textSize="@dimen/text14sp"
                 android:layout_margin="0dp"
                 android:gravity="center_vertical"
+                android:textColor="@color/black"
                 android:text="@string/button_use_default"/>
 
         </LinearLayout>

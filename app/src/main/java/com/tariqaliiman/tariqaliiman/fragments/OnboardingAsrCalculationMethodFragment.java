@@ -80,10 +80,12 @@ public class OnboardingAsrCalculationMethodFragment extends OnboardingBaseFragme
     int method = AppSettings.getInstance(getActivity()).getAsrMethodSetFor(mParam1);
     if (method == PrayTime.SHAFII) {
       mShafii.setSelected(true);
-      mShafii.setBackgroundColor(Color.parseColor("#20a600"));
+      mShafii.setBackgroundColor(Color.parseColor("#51B631"));
+      mShafii.setTextColor(Color.parseColor("#ffffff"));
     } else {
       mHanfi.setSelected(true);
-      mHanfi.setBackgroundColor(Color.parseColor("#20a600"));
+      mHanfi.setBackgroundColor(Color.parseColor("#51B631"));
+      mHanfi.setTextColor(Color.parseColor("#ffffff"));
     }
 
     return view;
@@ -115,7 +117,8 @@ public class OnboardingAsrCalculationMethodFragment extends OnboardingBaseFragme
       getActivity().onBackPressed();
     } else if (v.getId() == mShafii.getId()) {
       mShafii.setSelected(true);
-      mShafii.setBackgroundColor(Color.parseColor("#20a600"));
+      mShafii.setBackgroundColor(Color.parseColor("#51B631"));
+      mShafii.setTextColor(Color.parseColor("#ffffff"));
       mHanfi.setSelected(false);
       mHanfi.setBackgroundColor(Color.parseColor("#ffffff"));
       settings.setAsrMethodFor(mParam1, PrayTime.SHAFII);
@@ -124,7 +127,8 @@ public class OnboardingAsrCalculationMethodFragment extends OnboardingBaseFragme
       mShafii.setSelected(false);
       mShafii.setBackgroundColor(Color.parseColor("#ffffff"));
       mHanfi.setSelected(true);
-      mHanfi.setBackgroundColor(Color.parseColor("#20a600"));
+      mHanfi.setBackgroundColor(Color.parseColor("#51B631"));
+      mHanfi.setTextColor(Color.parseColor("#ffffff"));
       settings.setAsrMethodFor(mParam1, PrayTime.HANAFI);
       mListener.onOptionSelected();
     }

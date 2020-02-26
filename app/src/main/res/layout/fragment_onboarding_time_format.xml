@@ -20,7 +20,8 @@
         android:fontFamily="@font/elmasri"
         android:singleLine="true"
         android:tag="1"
-        android:text="@string/time_12" />
+        android:text="@string/time_12"
+        android:textColor="@color/gray1"/>
 
     <TextView
         android:id="@+id/twenty_four"
@@ -32,7 +33,8 @@
         android:fontFamily="@font/elmasri"
         android:singleLine="true"
         android:tag="0"
-        android:text="@string/time_24" />
+        android:text="@string/time_24"
+        android:textColor="@color/gray1"/>
 
     <LinearLayout
         android:layout_width="match_parent"

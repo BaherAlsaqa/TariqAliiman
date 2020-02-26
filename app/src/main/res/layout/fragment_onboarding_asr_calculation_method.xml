@@ -20,6 +20,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/elmasri"
+        android:textColor="@color/gray1"
+        android:textSize="@dimen/text14sp"
         android:text="@string/asr_method_explain" />
 
     <TextView
@@ -32,6 +34,7 @@
         android:fontFamily="@font/elmasri"
         android:singleLine="true"
         android:tag="0"
+        android:textColor="@color/gray1"
         android:text="@string/asr_method_shafii" />
 
     <TextView
@@ -44,6 +47,7 @@
         android:fontFamily="@font/elmasri"
         android:singleLine="true"
         android:tag="1"
+        android:textColor="@color/gray1"
         android:text="@string/asr_method_hanfi" />
 
     <LinearLayout

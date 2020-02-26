@@ -81,10 +81,12 @@ public class OnboardingTimeFormatFragment extends OnboardingBaseFragment {
     int method = AppSettings.getInstance(getActivity()).getTimeFormatFor(mParam1);
     if (method == PrayTime.TIME_12) {
       m12h.setSelected(true);
-      m12h.setBackgroundColor(Color.parseColor("#20a600"));
+      m12h.setBackgroundColor(Color.parseColor("#51B631"));
+      m12h.setTextColor(Color.parseColor("#ffffff"));
     } else {
       m24h.setSelected(true);
-      m24h.setBackgroundColor(Color.parseColor("#20a600"));
+      m24h.setBackgroundColor(Color.parseColor("#51B631"));
+      m24h.setTextColor(Color.parseColor("#ffffff"));
     }
 
     return view;
@@ -116,7 +118,8 @@ public class OnboardingTimeFormatFragment extends OnboardingBaseFragment {
       getActivity().onBackPressed();
     } else if (v.getId() == m12h.getId()) {
       m12h.setSelected(true);
-      m12h.setBackgroundColor(Color.parseColor("#20a600"));
+      m12h.setBackgroundColor(Color.parseColor("#51B631"));
+      m12h.setTextColor(Color.parseColor("#ffffff"));
       m24h.setSelected(false);
       m24h.setBackgroundColor(Color.parseColor("#ffffff"));
       settings.setTimeFormatFor(mParam1, PrayTime.TIME_12);
@@ -124,8 +127,9 @@ public class OnboardingTimeFormatFragment extends OnboardingBaseFragment {
     } else if (v.getId() == m24h.getId()) {
       m12h.setSelected(false);
       m12h.setBackgroundColor(Color.parseColor("#ffffff"));
+      m24h.setTextColor(Color.parseColor("#ffffff"));
       m24h.setSelected(true);
-      m24h.setBackgroundColor(Color.parseColor("#20a600"));
+      m24h.setBackgroundColor(Color.parseColor("#51B631"));
       settings.setTimeFormatFor(mParam1, PrayTime.TIME_24);
       mListener.onOptionSelected();
     }

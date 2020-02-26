@@ -1,11 +1,20 @@
 package com.tariqaliiman.tariqaliiman.activities;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.net.Uri;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,12 +30,24 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.tariqaliiman.tariqaliiman.Contains;
+import com.tariqaliiman.tariqaliiman.Database.AppPreference;
+import com.tariqaliiman.tariqaliiman.Database.DatabaseAccess;
+import com.tariqaliiman.tariqaliiman.Downloader.DownloadService;
+import com.tariqaliiman.tariqaliiman.Models.Quarter;
+import com.tariqaliiman.tariqaliiman.Models.Sora;
 import com.tariqaliiman.tariqaliiman.R;
 import com.tariqaliiman.tariqaliiman.SalaatTimesActivity;
 import com.tariqaliiman.tariqaliiman.TermsAndConditionsActivity;
+import com.tariqaliiman.tariqaliiman.Utilities.AppConstants;
+import com.tariqaliiman.tariqaliiman.Utilities.QuranConfig;
+import com.tariqaliiman.tariqaliiman.Utilities.QuranValidateSources;
+import com.tariqaliiman.tariqaliiman.Utilities.Settingsss;
 import com.tariqaliiman.tariqaliiman.notification.NotificationHelper;
 import com.tariqaliiman.tariqaliiman.utils.AppSettings;
 import com.tariqaliiman.tariqaliiman.utils.AppSharedPreferences;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.tariqaliiman.tariqaliiman.Constants.REQUEST_TNC;
 
@@ -40,6 +61,11 @@ public class MenuActivity extends AppCompatActivity {
     private InterstitialAd mInterstitialAd1;
     private InterstitialAd mInterstitialAd2;
     private InterstitialAd mInterstitialAd3;
+
+    public static List<Sora> soraListModified ;
+    public static List<Quarter> quarterListModified ;
+    private static final int REQUEST_WRITE_STORAGE = 112;
+    private static final int REQUEST_WRITE_Settings = 113;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +85,7 @@ public class MenuActivity extends AppCompatActivity {
         ((TextView) v.findViewById(R.id.title1)).setText(this.getTitle());
         getSupportActionBar().setCustomView(v);
 
-        AppSettings appsettings = AppSettings.getInstance(this);
+        /*AppSettings appsettings = AppSettings.getInstance(this);
         if (!appsettings.getBoolean(AppSettings.Key.IS_TNC_ACCEPTED, false)) {
             getWindow().getDecorView().postDelayed(new Runnable() {
                 @Override
@@ -69,7 +95,7 @@ public class MenuActivity extends AppCompatActivity {
                     startActivityForResult(intent, REQUEST_TNC);
                 }
             }, 2000);
-        }
+        }*/
 
         hours = "8";
         minutes = "0";
@@ -237,11 +263,29 @@ public class MenuActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        //marshmallow check permission permissions
+        final boolean hasPermission = (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+
         quran.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MenuActivity.this, QuranKareem.class));
-                x = appSharedPreferences.readInteger(Contains.cont_ads);
+                if (!hasPermission) {
+                    Log.d("baherdb", "(!hasPermission)");
+                    ActivityCompat.requestPermissions(MenuActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            REQUEST_WRITE_STORAGE);
+                } else {
+                    Log.d("baherdb", "(hasPermission)");
+                    validateFilesAndDownload();
+                }
+//                startActivity(new Intent(MenuActivity.this, QuranKareem.class));
+                /*x = appSharedPreferences.readInteger(Contains.cont_ads);
                 Log.d(Contains.log + "7", "x = " + x);
                 appSharedPreferences.writeInteger(Contains.cont_ads, x + 1);
                 x = appSharedPreferences.readInteger(Contains.cont_ads);
@@ -256,7 +300,7 @@ public class MenuActivity extends AppCompatActivity {
                 }else if (x>=9){
                     Log.d("log" + "131", "x = "+x);
                     appSharedPreferences.writeInteger(Contains.cont_ads, 0);
-                }
+                }*/
 
 
             }
@@ -355,5 +399,76 @@ public class MenuActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void validateFilesAndDownload() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                //set screen resolution in prefrence
+                QuranConfig.getResolutionURLLink(MenuActivity.this);
+
+                //check if files is valid
+                if (!QuranValidateSources.validatAppMainFoldersAndFiles(MenuActivity.this) ||
+                        (Settingsss.isMyServiceRunning(MenuActivity.this, DownloadService.class)
+                                && AppPreference.getDownloadType() == AppConstants.Preferences.IMAGES)) {
+                    Log.d("baherdb", "(!QuranValidateSources.validatAppMainFoldersAndFiles");
+                    //set default preference font int web_view to the meduim font
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MenuActivity.this);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("size" , "large");
+                    editor.commit();
+
+                    Intent downloadActivity = new Intent(MenuActivity.this, QuranDataActivity.class);
+                    startActivity(downloadActivity);
+//                    MenuActivity.this.finish();
+
+                } else {
+                    Log.d("baherdb", "(QuranValidateSources.validatAppMainFoldersAndFiles");
+                    loadMainApplicationData();
+
+                    Intent Home = new Intent(MenuActivity.this, HomeActivity.class);
+                    startActivity(Home);
+//                    MenuActivity.this.finish();
+                }
+
+            }
+        }).start();
+    }
+
+    public static void loadMainApplicationData(){
+        List<Quarter> quarters = new DatabaseAccess().getAllQuarters();
+        int lastPart = 0;
+        quarterListModified = new ArrayList<>();
+        for (Quarter quarter : quarters) {
+            if (lastPart != quarter.joza) {
+                lastPart = quarter.joza;
+                quarterListModified.add(new Quarter("", "", -1, new DatabaseAccess()
+                        .getPartStartPage(lastPart), -1, -1, "", -1, -1, lastPart));
+            }
+            quarterListModified.add(quarter);
+        }
+
+        List<Sora> parts = new DatabaseAccess().getAllSora() ;
+
+        int counter = 0;
+        lastPart = 0;
+        soraListModified = new ArrayList<>();
+        for (Sora sora_item : parts) {
+            counter++;
+            if (lastPart != sora_item.jozaNumber) {
+                if ((sora_item.jozaNumber - lastPart) == 2) {
+                    soraListModified.add(new Sora("", "", -1, new DatabaseAccess()
+                            .getPartStartPage(lastPart + 1), lastPart + 1, -1));
+                }
+                lastPart = sora_item.jozaNumber;
+                soraListModified.add(new Sora("", "", -1, new DatabaseAccess()
+                        .getPartStartPage(lastPart), lastPart, -1));
+            }
+            sora_item.setSoraTag(counter + "");
+            soraListModified.add(sora_item);
+        }
+
     }
 }

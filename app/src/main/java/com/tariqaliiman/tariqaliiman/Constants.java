@@ -31,4 +31,5 @@ public interface Constants {
 
   int NOTIFICATION_ID = 2010;
 
+    String log = "baher";
 }

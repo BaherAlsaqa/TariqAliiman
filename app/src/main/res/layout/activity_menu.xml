@@ -14,6 +14,24 @@
         tools:context=".activities.MenuActivity">
 
         <com.tariqaliiman.tariqaliiman.customviews.CustomButton
+
+            android:id="@+id/quran"
+            android:text="@string/quran"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/btn_selector"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <com.tariqaliiman.tariqaliiman.customviews.CustomButton
             android:id="@+id/muslim"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -28,24 +46,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/quran" />
 
         <com.tariqaliiman.tariqaliiman.customviews.CustomButton
-            android:id="@+id/quran"
+            android:id="@+id/sereen"
+            android:text="@string/sereen"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/btn_selector"
-            android:text="@string/quran"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sereen" />
+            app:layout_constraintTop_toBottomOf="@+id/muslim" />
 
         <com.tariqaliiman.tariqaliiman.customviews.CustomButton
             android:id="@+id/prayertimings"
@@ -62,7 +80,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quran" />
+            app:layout_constraintTop_toBottomOf="@+id/sereen" />
 
         <com.tariqaliiman.tariqaliiman.customviews.CustomButton
             android:id="@+id/settings"
@@ -80,23 +98,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/prayertimings" />
-
-        <com.tariqaliiman.tariqaliiman.customviews.CustomButton
-            android:id="@+id/sereen"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/btn_selector"
-            android:text="@string/sereen"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/muslim" />
 
         <ImageView
             android:id="@+id/imageView"

@@ -91,7 +91,8 @@ public class OnboardingCalculationMethodFragment extends OnboardingBaseFragment 
       int val =  Integer.valueOf((String) t.getTag());
       if (val == method) {
         t.setSelected(true);
-        t.setBackgroundColor(Color.parseColor("#20a600"));
+        t.setBackgroundColor(Color.parseColor("#51B631"));
+        t.setTextColor(Color.parseColor("#ffffff"));
       }
       t.setOnClickListener(this);
     }
@@ -127,7 +128,8 @@ public class OnboardingCalculationMethodFragment extends OnboardingBaseFragment 
         AppSettings settings = AppSettings.getInstance(getActivity());
         settings.setCalcMethodFor(mParam1, Integer.valueOf((String) t.getTag()));
         t.setSelected(true);
-        t.setBackgroundColor(Color.parseColor("#20a600"));
+        t.setBackgroundColor(Color.parseColor("#51B631"));
+        t.setTextColor(Color.parseColor("#ffffff"));
         mListener.onOptionSelected();
       } else {
         t.setSelected(false);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -9,16 +10,18 @@
         android:id="@+id/prev"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/space"
         android:background="@drawable/bg_button_background"
         android:fontFamily="@font/elmasri"
         android:padding="@dimen/space"
-        android:paddingLeft="@dimen/space"
+        android:paddingEnd="@dimen/space"
         android:text="@string/button_prev"
         android:textAllCaps="true"
         android:textSize="12sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        tools:ignore="RtlSymmetry" />
 
     <TextView
         android:id="@+id/next"
@@ -32,6 +35,7 @@
         android:text="@string/button_next"
         android:textAllCaps="true"
         android:textSize="12sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
 
 </RelativeLayout>

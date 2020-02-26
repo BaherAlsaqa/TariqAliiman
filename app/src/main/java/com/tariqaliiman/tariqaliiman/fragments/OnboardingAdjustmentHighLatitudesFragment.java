@@ -81,7 +81,8 @@ public class OnboardingAdjustmentHighLatitudesFragment extends OnboardingBaseFra
       tv.setOnClickListener(this);
       if (settings.getHighLatitudeAdjustmentFor(mParam1) == i) {
         tv.setSelected(true);
-        tv.setBackgroundColor(Color.parseColor("#20a600"));
+        tv.setBackgroundColor(Color.parseColor("#51B631"));
+        tv.setTextColor(Color.parseColor("#ffffff"));
       }
     }
 
@@ -118,7 +119,8 @@ public class OnboardingAdjustmentHighLatitudesFragment extends OnboardingBaseFra
         TextView tv = views[i];
         if (tv.getId() == v.getId()) {
           tv.setSelected(true);
-          tv.setBackgroundColor(Color.parseColor("#20a600"));
+          tv.setBackgroundColor(Color.parseColor("#51B631"));
+          tv.setTextColor(Color.parseColor("#ffffff"));
           AppSettings.getInstance(getActivity()).setHighLatitudeAdjustmentMethodFor(mParam1, i);
         } else {
           tv.setSelected(false);

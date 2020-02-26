@@ -1,11 +1,14 @@
 package com.tariqaliiman.tariqaliiman.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +22,14 @@ import com.tariqaliiman.tariqaliiman.scheduler.SalaatAlarmReceiver;
 import com.tariqaliiman.tariqaliiman.utils.AppSettings;
 import com.tariqaliiman.tariqaliiman.utils.PrayTime;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class SalaatTimesFragment extends Fragment implements Constants {
@@ -84,6 +94,13 @@ public class SalaatTimesFragment extends Fragment implements Constants {
     TextView asr = (TextView) view.findViewById(R.id.asr);
     TextView maghrib = (TextView) view.findViewById(R.id.maghrib);
     TextView isha = (TextView) view.findViewById(R.id.isha);
+    ////////////////
+    TextView fajr2 = (TextView) view.findViewById(R.id.fajr2);
+    TextView dhuhr2 = (TextView) view.findViewById(R.id.dhuhr2);
+    TextView asr2 = (TextView) view.findViewById(R.id.asr2);
+    TextView maghrib2 = (TextView) view.findViewById(R.id.maghrib2);
+    TextView isha2 = (TextView) view.findViewById(R.id.isha2);
+    ////////////////
     TextView sunrise = (TextView) view.findViewById(R.id.sunrise);
     TextView sunset = (TextView) view.findViewById(R.id.sunset);
     mAlarm = (TextView) view.findViewById(R.id.alarm);
@@ -97,6 +114,23 @@ public class SalaatTimesFragment extends Fragment implements Constants {
     sunrise.setText(prayerTimes.get(String.valueOf(sunrise.getTag())));
     sunset.setText(prayerTimes.get(String.valueOf(sunset.getTag())));
 
+    String fajrV = prayerTimes.get(String.valueOf(fajr.getTag()));
+    assert fajrV != null;
+    fajr2.setText(getPearerTime(fajrV));
+    String dhuhrV = prayerTimes.get(String.valueOf(dhuhr.getTag()));
+    assert dhuhrV != null;
+    dhuhr2.setText(getPearerTime(dhuhrV));
+    String asrV = prayerTimes.get(String.valueOf(asr.getTag()));
+    assert asrV != null;
+    asr2.setText(getPearerTime(asrV));
+    String maghribV = prayerTimes.get(String.valueOf(maghrib.getTag()));
+    assert maghribV != null;
+    maghrib2.setText(getPearerTime(maghribV));
+    String ishaV = prayerTimes.get(String.valueOf(isha.getTag()));
+    assert ishaV != null;
+    isha2.setText(getPearerTime(ishaV));
+
+
     //set text for the first card.
     setAlarmButtonText(mAlarm, mIndex);
     setAlarmButtonClickListener(mAlarm, mIndex);
@@ -109,6 +143,98 @@ public class SalaatTimesFragment extends Fragment implements Constants {
         sIsAlarmInit = true;
       }
     }
+  }
+
+  private String getPearerTime(String timeV) {
+    String[] ampm = timeV.split(" ", 2);
+    String[] time1 = ampm[0].split(":", 2);
+    if (time1[0].length() == 1){
+      timeV = "0"+timeV.toUpperCase(Locale.US);
+    }else{
+      timeV = timeV.toUpperCase(Locale.US);
+    }
+    Date date1 = new Date();
+    @SuppressLint("SimpleDateFormat") SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm", Locale.US);
+    @SuppressLint("SimpleDateFormat") SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a", Locale.US);
+    Date date24 = null;
+    try {
+      date24 = parseFormat.parse(timeV);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assert date24 != null;
+    String time24 = displayFormat.format(date24);
+    /*String result = null;
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+      result =                                       // Text representing the value of our date-time object.
+              LocalTime.parse(                                  // Class representing a time-of-day value without a date and without a time zone.
+                      "03:30 AM" ,                                  // Your `String` input text.
+                      DateTimeFormatter.ofPattern(                  // Define a formatting pattern to match your input text.
+                              "hh:mm a" ,
+                              Locale.US                              // `Locale` determines the human language and cultural norms used in localization. Needed here to translate the `AM` & `PM` value.
+                      )                                             // Returns a `DateTimeFormatter` object.
+              )                                                 // Return a `LocalTime` object.
+                      .format( DateTimeFormatter.ofPattern("HH:mm") )   // Generate text in a specific format. Returns a `String` object.
+              ;
+    }*/
+//    String[] ampm = result.split(" ", 2);
+    assert time24 != null;
+    String[] time = time24.split(":", 2);
+    Log.d(Constants.log, "time0 = "+time[0]+" time1 = "+time[1]);
+    String minutes = time[1].substring(0, 2);
+    Log.d(Constants.log+"time", "hour = "+time[0]+" | minutes = "+minutes);
+    Date date = getDate(Integer.parseInt(time[0]), Integer.parseInt(minutes));
+    long mills =  date.getTime() - date1.getTime();
+    Log.d(Constants.log+"Data1", ""+date1.getTime());
+    Log.d(Constants.log+"Data", ""+date.getTime());
+    int hours = (int) (mills/(1000 * 60 * 60));
+    int mins = (int) (mills/(1000*60)) % 60;
+    /*int hours = 0;
+    int mins = 0;
+    try {
+      Date date2 = new Date();
+      String[] ampm = timeV.split(" ", 2);
+      String[] time = ampm[0].split(":", 2);
+      Log.d(Constants.log, "time0 = "+time[0]+" time1 = "+time[1]);
+      String minutes = time[1].substring(0, 2);
+      Log.d(Constants.log+"time", "hour = "+time[0]+" | minutes = "+minutes);
+      Date date = getDate(Integer.parseInt(time[0]), Integer.parseInt(minutes));
+      @SuppressLint("SimpleDateFormat") java.text.DateFormat df = new java.text.SimpleDateFormat("hh:mm");
+      java.util.Date date1 = df.parse(time[0]+":"+time[1]);
+//      java.util.Date date2 = df.parse("19:05");
+      assert date1 != null;
+      long diff = date.getTime() - date2.getTime();
+      Log.d("baherr", getDate1(diff)+" time ="+timeV);
+      hours = (int) (diff/(1000 * 60 * 60));
+      mins = (int) (diff/(1000*60)) % 60;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }*/
+    Log.d(Constants.log+"result", "h = "+hours+" m = "+mins);
+    String result = hours +" "+ getString(R.string.hours) +" "+ mins +" "+ getString(R.string.minits);
+    return result;
+//    return "";
+  }
+  private String getDate1(long time) {
+    Calendar cal = Calendar.getInstance();
+    cal.setTimeInMillis(time);
+    String date = DateFormat.format("hh:mm aa", cal).toString();
+    return date;
+  }
+  @SuppressLint("WrongConstant")
+  public static Date getDate(int hour, int minute) {
+    Calendar cal = Calendar.getInstance();
+//    cal.set(Calendar.YEAR, 0);
+//    cal.set(Calendar.MONTH, 0);
+//    cal.set(Calendar.DAY_OF_MONTH, 0);
+    cal.set(Calendar.HOUR_OF_DAY, hour);
+    cal.set(Calendar.MINUTE, minute);
+    /*if (typeAmPm.equalsIgnoreCase("am"))
+      cal.set(Calendar.AM, 0);
+    else
+      cal.set(Calendar.PM, 1);*/
+
+    return cal.getTime();
   }
 
   private void setAlarmButtonText(TextView button, int index) {

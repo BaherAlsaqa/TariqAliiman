@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#20a600</color>
-    <color name="colorPrimaryDark">#168B01</color>
+    <color name="colorPrimary">#51B631</color><!--20a600|6EA331-->
+    <color name="colorPrimaryDark">#32A51F</color><!--168B01|629122-->
     <color name="colorAccent">#c1913b</color>
     <color name="colorAccent1">#D5A44E</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#FCADADAD</color>
+    <color name="gray1">#FC999797</color>
 
     <!-- THEME DEFAULT -->
-    <color name="green_primary">#20a600</color>
-    <color name="green_primary_dark">#168B01</color>
-    <color name="green_accent">#20a600</color>
+    <color name="green_primary">#51B631</color>
+    <color name="green_primary_dark">#32A51F</color>
+    <color name="green_accent">#51B631</color>
     <color name="separator">#EFEFEF</color>
 
     <!-- THEME TEAL -->
-    <color name="teal_primary">#20a600</color>
-    <color name="teal_primary_dark">#168B01</color>
-    <color name="teal_primary_light">#20a600</color>
-    <color name="teal_accent">#20a600</color>
+    <color name="teal_primary">#51B631</color>
+    <color name="teal_primary_dark">#32A51F</color>
+    <color name="teal_primary_light">#51B631</color>
+    <color name="teal_accent">#51B631</color>
     <color name="teal_primary_text">#212121</color>
     <color name="teal_secondary_text">#727272</color>
     <color name="teal_icons">#FFFFFF</color>
     <color name="teal_separator">#4DB6B6B6</color>
+    <color name="applicationSecand">#303030</color>
+    <color name="white1">#E6E6E6</color>
+    <color name="black">#000000</color>
 </resources>

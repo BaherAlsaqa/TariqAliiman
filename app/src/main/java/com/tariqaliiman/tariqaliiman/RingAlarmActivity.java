@@ -128,9 +128,9 @@ public class RingAlarmActivity extends AppCompatActivity implements Constants, V
       loop = false;
       //mAudioStream = AudioManager.STREAM_MUSIC;
       if (mPrayerNameString.equalsIgnoreCase(getString(R.string.fajr))) {
-        assetFileDescriptor = getResources().openRawResourceFd(R.raw.adhan_fajr_trimmed);
+        assetFileDescriptor = getResources().openRawResourceFd(R.raw.athan_mansor_alsalimi);
       } else {
-        assetFileDescriptor = getResources().openRawResourceFd(R.raw.adhan_trimmed);
+        assetFileDescriptor = getResources().openRawResourceFd(R.raw.athan_mansor_alsalimi);
       }
 
     } else if (mSettings.getBoolean(AppSettings.Key.IS_RANDOM_ALARM)) {
@@ -309,9 +309,9 @@ public class RingAlarmActivity extends AppCompatActivity implements Constants, V
       mMediaPlayer = null;
       AssetFileDescriptor assetFileDescriptor = null;
       if (mPrayerNameString.equalsIgnoreCase(getString(R.string.fajr))) {
-        assetFileDescriptor = getResources().openRawResourceFd(R.raw.dua_sehri);
+//        assetFileDescriptor = getResources().openRawResourceFd(R.raw.dua_sehri);
       } else if (mPrayerNameString.equalsIgnoreCase(getString(R.string.maghrib))) {
-        assetFileDescriptor = getResources().openRawResourceFd(R.raw.dua_iftar);
+//        assetFileDescriptor = getResources().openRawResourceFd(R.raw.dua_iftar);
       }
 
       if (assetFileDescriptor == null) {
