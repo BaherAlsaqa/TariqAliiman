@@ -1,5 +1,6 @@
 package com.tariqaliiman.tariqaliiman.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,7 +53,7 @@ public class MuslimsDetails extends AppCompatActivity {
             String referenceS = intent.getStringExtra(Contains.reference);
 
             LayoutInflater inflator = LayoutInflater.from(this);
-            View v = inflator.inflate(R.layout.titleview, null);
+            @SuppressLint("InflateParams") View v = inflator.inflate(R.layout.titleview, null);
             ((TextView)v.findViewById(R.id.title1)).setText(nameS);
             getSupportActionBar().setCustomView(v);
 

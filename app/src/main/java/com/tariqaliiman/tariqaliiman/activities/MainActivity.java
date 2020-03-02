@@ -23,6 +23,7 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.Contains;
 import com.tariqaliiman.tariqaliiman.R;
 import com.tariqaliiman.tariqaliiman.adapters.MuslimsAdapter;
@@ -123,10 +124,16 @@ public class MainActivity extends AppCompatActivity {
         muslimsAdapter.setOnClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(Muslim item) {
-                startActivity(new Intent(MainActivity.this, MuslimsDetails.class)
-                        .putExtra(Contains.name, item.getName())
-                        .putExtra(Contains.content, item.content)
-                        .putExtra(Contains.reference, item.reference));
+                if (item.getId() == 27 | item.getId() == 28) {
+                    startActivity(new Intent(MainActivity.this, SabahMasaaDetails.class)
+                            .putExtra(Constants.athkar_id, item.getId())
+                            .putExtra(Contains.name, item.getName()));
+                }else{
+                    startActivity(new Intent(MainActivity.this, MuslimsDetails.class)
+                            .putExtra(Contains.name, item.getName())
+                            .putExtra(Contains.content, item.content)
+                            .putExtra(Contains.reference, item.reference));
+                }
                 x = appSharedPreferences.readInteger(Contains.cont_ads);
                 appSharedPreferences.writeInteger(Contains.cont_ads, x+1);
                 x = appSharedPreferences.readInteger(Contains.cont_ads);

@@ -32,4 +32,5 @@ public interface Constants {
   int NOTIFICATION_ID = 2010;
 
     String log = "baher";
+    String athkar_id = "ATHKAR_ID";
 }
