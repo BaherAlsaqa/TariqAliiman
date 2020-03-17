@@ -13,8 +13,8 @@ import com.tariqaliiman.tariqaliiman.Database.AppPreference;
  */
 public class QuranConfig {
     public static int maxResolution;
-    private static final String DOWNLOAD_LINK = "http://albseet.com/data/pages/quranpages_";//http://quran.islam-db.com/data/pages/quranpages_
-    private static final String File_TYPE = ".zip";//http://albseet.com/data/pages/quranpages_
+    private static final String DOWNLOAD_LINK = "https://albseet.com/data/pages/quranpages_";//http://quran.islam-db.com/data/pages/quranpages_
+    private static final String File_TYPE = ".zip";//https://albseet.com/data/pages/quranpages_
 
     /**
      * Function to get screen resolution

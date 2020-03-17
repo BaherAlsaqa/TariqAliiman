@@ -15,6 +15,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.Contains;
 import com.tariqaliiman.tariqaliiman.R;
@@ -64,12 +68,12 @@ public class SabahMasaaDetails extends AppCompatActivity {
 
             Resources resources = getResources();
 
-            if (athkarId == 27){
+            if (athkarId == 1){
                 ids = resources.getStringArray(R.array.sabah_ids);
                 contents = resources.getStringArray(R.array.sabah_content);
                 references = resources.getStringArray(R.array.reference_sabah);
                 counters = resources.getStringArray(R.array.counter_sabah);
-            }else if (athkarId == 28){
+            }else if (athkarId == 2){
                 ids = resources.getStringArray(R.array.masaa_ids);
                 contents = resources.getStringArray(R.array.masaa_content);
                 references = resources.getStringArray(R.array.reference_masaa);
@@ -118,6 +122,34 @@ public class SabahMasaaDetails extends AppCompatActivity {
                         referenceTV.setText(references[index]);
                         counterAthkar = Integer.parseInt(counters[index]);
                     }
+                }
+            });
+
+            // View Ads
+            AdView adView = new AdView(this);
+            adView.setAdSize(AdSize.BANNER);
+            adView.setAdUnitId(getString(R.string.mainBanner4));
+            adView = findViewById(R.id.adView1);
+            AdRequest adRequest = new AdRequest.Builder()
+                    .build();
+            adView.loadAd(adRequest);
+            adView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    super.onAdLoaded();
+                    Log.d( "logads", "onAdLoaded");
+                }
+
+                @Override
+                public void onAdFailedToLoad(int i) {
+                    super.onAdFailedToLoad(i);
+                    Log.d("logfailed", "onAdFailedToLoad = " + i);
+                }
+
+                @Override
+                public void onAdClosed() {
+                    super.onAdClosed();
+                    Log.d("logonadclosed", "onAdClosed");
                 }
             });
         }

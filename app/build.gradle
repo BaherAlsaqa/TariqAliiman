@@ -1,3 +1,20 @@
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/'}
+    }
+    dependencies {
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.4, 0.99.99]'
+    }
+}
+
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
+allprojects {
+    repositories {
+        maven { url 'https://maven.google.com' }
+    }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
@@ -9,10 +26,16 @@ android {
         applicationId "com.tariqaliiman.tariqaliiman"
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 14
-        versionName "2.3"
+        versionCode 15
+        versionName "2.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        manifestPlaceholders = [
+                onesignal_app_id: 'ce0a5bba-94a3-4d5b-a16d-0d9bb102bcb5',
+                // Project number pulled from dashboard, local value is ignored.
+                onesignal_google_project_number: 'REMOTE'
+        ]
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -47,6 +70,7 @@ dependencies {
     implementation 'uk.co.chrisjenx.calligraphy:calligraphy:0.6.0'
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    implementation 'com.onesignal:OneSignal:[3.11.2, 3.99.99]'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

@@ -23,7 +23,18 @@
     <color name="teal_secondary_text">#727272</color>
     <color name="teal_icons">#FFFFFF</color>
     <color name="teal_separator">#4DB6B6B6</color>
+
+    <!--quran-->
+
+    <color name="colorPrimaryTransperant">#B33E686A</color>
+    <color name="pressed_color">#4d90fe</color>
+    <color name="default_color">#ffffff</color>
     <color name="applicationSecand">#303030</color>
+    <color name="smallTextColor">#4C8084</color>
+    <color name="headerhighlightHomeActivity">#5a979a</color>
+    <color name="headerHomeActivity">#993E686A</color>
+    <color name="itemhighlightHomeActivity">#121f1f</color>
+    <color name="itemHomeActivity">#303030</color>
     <color name="white1">#E6E6E6</color>
     <color name="black">#000000</color>
 </resources>

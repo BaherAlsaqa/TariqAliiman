@@ -22,7 +22,7 @@ public interface AppConstants {
     interface Paths {
         String MAIN_DATABASE_PATH = "/albseet/quran.sqlite",
                 TAFSEER_DATABASE_PATH = "/albseet/tafaseer",
-                TAFSEER_LINK = "http://albseet.com/data/tafaseer/tafseer";
+                TAFSEER_LINK = "https://albseet.com/data/tafaseer/tafseer";
         ;
     }
 

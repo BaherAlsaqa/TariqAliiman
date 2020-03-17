@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import com.onesignal.OneSignal;
 import com.tariqaliiman.tariqaliiman.Database.AppPreference;
 
 import java.util.Locale;
@@ -13,10 +14,19 @@ import java.util.Locale;
  */
 public class QuranApplication extends Application {
     private static Context appContext;
+    private static QuranApplication mInstanse;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        mInstanse = this;
+
+        // OneSignal Initialization
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
 
         if (appContext == null) {
             //take instance of application context
@@ -38,6 +48,10 @@ public class QuranApplication extends Application {
         appContext.getResources().updateConfiguration(config, appContext.getResources().getDisplayMetrics());
 
         return appContext;
+    }
+
+    public static synchronized QuranApplication newInstanse(){
+        return mInstanse;
     }
 
 

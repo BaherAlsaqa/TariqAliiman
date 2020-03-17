@@ -29,6 +29,8 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.onesignal.OneSignal;
+import com.tariqaliiman.tariqaliiman.Application.QuranApplication;
 import com.tariqaliiman.tariqaliiman.Contains;
 import com.tariqaliiman.tariqaliiman.Database.AppPreference;
 import com.tariqaliiman.tariqaliiman.Database.DatabaseAccess;
@@ -66,6 +68,7 @@ public class MenuActivity extends AppCompatActivity {
     public static List<Quarter> quarterListModified ;
     private static final int REQUEST_WRITE_STORAGE = 112;
     private static final int REQUEST_WRITE_Settings = 113;
+    private QuranApplication quranApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +102,8 @@ public class MenuActivity extends AppCompatActivity {
 
         hours = "8";
         minutes = "0";
+
+        quranApplication = QuranApplication.newInstanse();
 
         // Initialize Calss Mobile Ads
         MobileAds.initialize(this, getString(R.string.IDAPP));
@@ -356,6 +361,23 @@ public class MenuActivity extends AppCompatActivity {
                 Log.d("logonadclosed", "onAdClosed");
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            //check if permission had taken or not
+            case REQUEST_WRITE_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //valid to download or not
+                    validateFilesAndDownload();
+                } else {
+                    Toast.makeText(this, getString(R.string.permission), Toast.LENGTH_LONG).show();
+//                    MenuActivity.this.finish();
+                }
+            }
+        }
     }
 
     @Override

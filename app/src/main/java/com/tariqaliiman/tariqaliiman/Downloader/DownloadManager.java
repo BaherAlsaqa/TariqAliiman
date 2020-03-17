@@ -1,5 +1,6 @@
 package com.tariqaliiman.tariqaliiman.Downloader;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -19,12 +20,14 @@ import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.tariqaliiman.tariqaliiman.Application.QuranApplication;
 import com.tariqaliiman.tariqaliiman.Database.AppPreference;
 import com.tariqaliiman.tariqaliiman.R;
 import com.tariqaliiman.tariqaliiman.activities.MainActivity;
 import com.tariqaliiman.tariqaliiman.Utilities.AppConstants;
 import com.tariqaliiman.tariqaliiman.Utilities.Settingsss;
 import com.tariqaliiman.tariqaliiman.Utilities.UnZipping;
+import com.tariqaliiman.tariqaliiman.activities.QuranDataActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -155,7 +158,7 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
      * Function to init download objects
      */
     private void init() {
-        openApplication = new Intent(context, MainActivity.class);
+        openApplication = new Intent(context, QuranDataActivity.class);
         notificationPending = PendingIntent.getActivity(context, 0,
                 openApplication, 0);
         aboveLollipopFlag = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
@@ -311,11 +314,11 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
 //     * @return Flag of download success or not
 //     * @throws IOException
 //     */
-    public synchronized boolean multiDownload(List<String> links, String downloadLocation) throws IOException {
+    private synchronized boolean multiDownload(List<String> links, String downloadLocation) throws IOException {
 
         if (notificationDownloaderFlag) showNotificationDownloader();
         int counter = 0;
-        publishProgress(0L, Long.valueOf(links.size()));
+        publishProgress(0L, (long) links.size());
         //foreach for the all links
         for (String linkItem : links) {
 
@@ -323,7 +326,7 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
             if (stopDownload) break;
 
             //update progress
-            publishProgress(Long.valueOf(counter++), Long.valueOf(links.size()));
+            publishProgress((long) counter++, (long) links.size());
 
             //file name
             fileName = linkItem.substring(linkItem.lastIndexOf('/') + 1, linkItem.length());
@@ -393,6 +396,7 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
      *
      * @param values download information values
      */
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onProgressUpdate(Long... values) {
 
@@ -451,18 +455,12 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
             notificationManager.cancel(0);
         } else {
             //notify download cancel
-            if (context != null)
-                if (flag == 1) {
-                    Toast.makeText(context,
-                            context.getString(R.string.success_download_canceled)
-                            , Toast.LENGTH_LONG).show();
-                    showcancelNotification();
-                }else {
-                    Toast.makeText(context, result ?
-                                    context.getString(R.string.download_complete) :
-                                    "Download failed due to the connection is lost"
-                            , Toast.LENGTH_LONG).show();
-                }
+            if (context != null) {
+                Toast.makeText(context, result ?
+                                context.getString(R.string.download_complete) :
+                                context.getString(R.string.download_failed_connection_lost)
+                        , Toast.LENGTH_LONG).show();
+            }
             //pass the download statue to notification
             if (notificationDownloaderFlag) {
                 try {
@@ -518,6 +516,7 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            assert notificationManager != null;
             notificationManager.createNotificationChannel(channel);
         }
         return CHANNEL_ID;
@@ -528,7 +527,7 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
     /**
      * Initialize and show notification of download statue
      */
-    public void showNotificationDownloader() {
+    private void showNotificationDownloader() {
 
 
         remoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_download_progress);
@@ -545,14 +544,15 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
                 .setContentText(context.getString(R.string.download)+"")
                 .setOngoing(true);
         builder.setContentIntent(notificationPending);
-        notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        assert notificationManager != null;
         notificationManager.notify(0, builder.build());
     }
 
     /**
      * Initialize and show notification of download completes
      */
-    public void showCompleteNotification() {
+    private void showCompleteNotification() {
         remoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_download_finished);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelID = createNotificationChannel(context);
@@ -565,14 +565,15 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
                 .setContentText(context.getString(R.string.download_complete))
                 .setColor(Color.parseColor("#3E686A"));
         builder.setContentIntent(notificationPending);
-        notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        assert notificationManager != null;
         notificationManager.notify(0, builder.build());
     }
 
     /**
      * Initialize and show notification of download failed
      */
-    public void showFailedNotification() {
+    private void showFailedNotification() {
         remoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_download_failed);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelID = createNotificationChannel(context);
@@ -584,13 +585,14 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(context.getString(R.string.download_failed))
                 .setColor(Color.parseColor("#3E686A"));
-        notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        assert notificationManager != null;
         notificationManager.notify(0, builder.build());
     }
     /**
      * Initialize and show notification of download canceled
      */
-    public void showcancelNotification() {
+    private void showcancelNotification() {
         remoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_download_failed);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelID = createNotificationChannel(context);
@@ -600,9 +602,10 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
         }
         builder.setSmallIcon(aboveLollipopFlag ? R.drawable.ic_quran_trans : R.drawable.logo)
                 .setContentTitle(context.getString(R.string.app_name))
-                .setContentText("canceled")
+                .setContentText(context.getString(R.string.canceled))
                 .setColor(Color.parseColor("#3E686A"));
-        notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        assert notificationManager != null;
         notificationManager.notify(0, builder.build());
     }
 }

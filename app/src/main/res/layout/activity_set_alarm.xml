@@ -266,7 +266,8 @@
                 android:paddingStart="@dimen/space"
                 android:paddingTop="@dimen/space"
                 android:paddingEnd="@dimen/space"
-                android:text="@string/set_alarm_ascending" />
+                android:text="@string/set_alarm_ascending"
+                android:checked="false"/>
 
             <TextView
                 android:layout_width="match_parent"

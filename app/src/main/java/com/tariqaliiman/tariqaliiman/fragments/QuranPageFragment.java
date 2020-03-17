@@ -118,7 +118,8 @@ public class QuranPageFragment extends Fragment {
         super.onResume();
         isPauseResume = true;
         drawSavedHighlight();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(ResetImage , new IntentFilter(AppConstants.Highlight.RESET_IMAGE));
+            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(ResetImage ,
+                    new IntentFilter(AppConstants.Highlight.RESET_IMAGE));
     }
 
     @Override
@@ -264,7 +265,6 @@ public class QuranPageFragment extends Fragment {
             //get ayaInfo to highlight
             String[] ayaInfo = AppPreference.getSelectionVerse().split("-");
             if (ayaInfo != null) {
-
                 //split ayaInfo to extract information
                 int suraID = Integer.parseInt(ayaInfo[2]);
                 int ayaID = Integer.parseInt(ayaInfo[1]);
@@ -278,9 +278,9 @@ public class QuranPageFragment extends Fragment {
                 highlightAya.putExtra(AppConstants.Highlight.PAGE_NUMBER, pageNumber);
                 LocalBroadcastManager.getInstance(getContext()).sendBroadcast(highlightAya);
             }
-
         } catch (Exception e) {
         }
+
 
     }
 

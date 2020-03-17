@@ -105,6 +105,11 @@ public class SalaatTimesFragment extends Fragment implements Constants {
     TextView sunset = (TextView) view.findViewById(R.id.sunset);
     mAlarm = (TextView) view.findViewById(R.id.alarm);
     mRamadanContainer = view.findViewById(R.id.ramadan_container);
+    TextView fajr4 = view.findViewById(R.id.fajr4);
+    TextView dhuhr6 = view.findViewById(R.id.dhuhr6);
+    TextView asr9 = view.findViewById(R.id.asr9);
+    TextView maghrib11 = view.findViewById(R.id.maghrib11);
+    TextView isha13 = view.findViewById(R.id.isha13);
 
     fajr.setText(prayerTimes.get(String.valueOf(fajr.getTag())));
     dhuhr.setText(prayerTimes.get(String.valueOf(dhuhr.getTag())));
@@ -116,20 +121,55 @@ public class SalaatTimesFragment extends Fragment implements Constants {
 
     String fajrV = prayerTimes.get(String.valueOf(fajr.getTag()));
     assert fajrV != null;
-    fajr2.setText(getPearerTime(fajrV));
+    String t = getPearerTime(fajrV);
+    String[] ts = t.split(":", 2);
+    Log.d(Constants.log+"ts[0]", "ts[0] = "+ts[0]);
+    if (Integer.parseInt(ts[1]) < 0)
+      fajr4.setText(getString(R.string.elapsedtime));
+    else
+      fajr4.setText(getString(R.string.remainingtime));
+    fajr2.setText(t);
+    ///////////////////
     String dhuhrV = prayerTimes.get(String.valueOf(dhuhr.getTag()));
     assert dhuhrV != null;
-    dhuhr2.setText(getPearerTime(dhuhrV));
+    String t1 = getPearerTime(dhuhrV);
+    String[] ts1 = t1.split(":", 2);
+    if (Integer.parseInt(ts1[1]) < 0)
+      dhuhr6.setText(getString(R.string.elapsedtime));
+    else
+      dhuhr6.setText(getString(R.string.remainingtime));
+    dhuhr2.setText(t1);
+    /////////////////////
     String asrV = prayerTimes.get(String.valueOf(asr.getTag()));
     assert asrV != null;
-    asr2.setText(getPearerTime(asrV));
+    String t2 = getPearerTime(asrV);
+    String[] ts2 = t2.split(":", 2);
+    if (Integer.parseInt(ts2[1]) < 0)
+      asr9.setText(getString(R.string.elapsedtime));
+    else
+      asr9.setText(getString(R.string.remainingtime));
+    asr2.setText(t2);
+    /////////////////////
     String maghribV = prayerTimes.get(String.valueOf(maghrib.getTag()));
     assert maghribV != null;
-    maghrib2.setText(getPearerTime(maghribV));
+    String t3 = getPearerTime(maghribV);
+    String[] ts3 = t3.split(":", 2);
+    if (Integer.parseInt(ts3[1]) < 0)
+      maghrib11.setText(getString(R.string.elapsedtime));
+    else
+      maghrib11.setText(getString(R.string.remainingtime));
+    maghrib2.setText(t3);
+    /////////////////////
     String ishaV = prayerTimes.get(String.valueOf(isha.getTag()));
     assert ishaV != null;
-    isha2.setText(getPearerTime(ishaV));
-
+    String t4 = getPearerTime(ishaV);
+    String[] ts4 = t4.split(":", 2);
+    if (Integer.parseInt(ts4[1]) < 0)
+      isha13.setText(getString(R.string.elapsedtime));
+    else
+      isha13.setText(getString(R.string.remainingtime));
+    isha2.setText(t4);
+    /////////////////////
 
     //set text for the first card.
     setAlarmButtonText(mAlarm, mIndex);
@@ -178,7 +218,6 @@ public class SalaatTimesFragment extends Fragment implements Constants {
               ;
     }*/
 //    String[] ampm = result.split(" ", 2);
-    assert time24 != null;
     String[] time = time24.split(":", 2);
     Log.d(Constants.log, "time0 = "+time[0]+" time1 = "+time[1]);
     String minutes = time[1].substring(0, 2);
@@ -211,8 +250,8 @@ public class SalaatTimesFragment extends Fragment implements Constants {
       e.printStackTrace();
     }*/
     Log.d(Constants.log+"result", "h = "+hours+" m = "+mins);
-    String result = hours +" "+ getString(R.string.hours) +" "+ mins +" "+ getString(R.string.minits);
-    return result;
+//    String result = hours +" "+ getString(R.string.hours) +" "+ mins +" "+ getString(R.string.minits);
+    return hours+":"+ mins;
 //    return "";
   }
   private String getDate1(long time) {

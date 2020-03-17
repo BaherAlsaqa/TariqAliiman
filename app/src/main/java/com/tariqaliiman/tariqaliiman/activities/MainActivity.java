@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         muslimsAdapter.setOnClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(Muslim item) {
-                if (item.getId() == 27 | item.getId() == 28) {
+                if (item.getId() == 1 | item.getId() == 2) {
                     startActivity(new Intent(MainActivity.this, SabahMasaaDetails.class)
                             .putExtra(Constants.athkar_id, item.getId())
                             .putExtra(Contains.name, item.getName()));

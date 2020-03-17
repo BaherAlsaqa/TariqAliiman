@@ -41,28 +41,29 @@ import com.google.android.material.tabs.TabLayout;
 public class HomeActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    int k ;
+    int k;
     boolean doubleBackToExitPressedOnce = false;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //check is tablet or not
-    if(isTablet(getApplicationContext())){
-    setContentView(R.layout.activity_home);
-     }else{
-    setContentView(R.layout.activity_home1);
-    }
+        if (isTablet(getApplicationContext())) {
+            setContentView(R.layout.activity_home);
+        } else {
+            setContentView(R.layout.activity_home1);
+        }
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
 
         //get and set screen resolution
-            QuranConfig.getResolutionURLLink(this);
+        QuranConfig.getResolutionURLLink(this);
 
-            //init application views
-            init();
+        //init application views
+        init();
 
 
     }
@@ -72,6 +73,7 @@ public class HomeActivity extends AppCompatActivity {
         boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
         return (xlarge || large);
     }
+
     private void init() {
         k = 0;
 
@@ -86,9 +88,9 @@ public class HomeActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setTabTextColors(Color.parseColor("#ffffff"), Color.parseColor("#ffffff"));
         tabLayout.setupWithViewPager(mViewPager);
-        if(getIntent() != null){
-            String message=getIntent().getStringExtra("Setting");
-            if (message!=null &&message.equalsIgnoreCase("x")) {
+        if (getIntent() != null) {
+            String message = getIntent().getStringExtra("Setting");
+            if (message != null && message.equalsIgnoreCase("x")) {
                 /*Intent i = new Intent(HomeActivity.this, SettingsActivity.class);
                 startActivity(i);*/
             }
@@ -98,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
-        }
+    }
 
 
     @Override
@@ -151,7 +153,8 @@ public class HomeActivity extends AppCompatActivity {
         } else if (id == R.id.search) {
             //Search view created in onCreateOptionMenu
             return false;
-        } else */if (id == R.id.action_jump) {
+        } else */
+        if (id == R.id.action_jump) {
             //show popup
             new JumpToPopup(this);
         } else /*if (id == R.id.action_settings) {
@@ -164,12 +167,12 @@ public class HomeActivity extends AppCompatActivity {
             //share intent for the application
             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, "#"+getString(R.string.app_name)+"\n https://play.google.com/store/apps/details?id="+getPackageName());
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, "#" + getString(R.string.app_name) + "\n https://play.google.com/store/apps/details?id=" + getPackageName());
             startActivity(Intent.createChooser(sharingIntent, "Share using"));
 //            Toast.makeText(this, "App not published", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.action_rate_app) {
             //market url of the application
-            String url = "https://play.google.com/store/apps/details?id="+getPackageName();
+            String url = "https://play.google.com/store/apps/details?id=" + getPackageName();
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
@@ -184,7 +187,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        startActivity(new Intent(this,HomeActivity.class).putExtra("Setting","x"));
+        startActivity(new Intent(this, HomeActivity.class).putExtra("Setting", "x"));
 
     }
 
@@ -223,20 +226,21 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
 
-                switch (position) {
+            switch (position) {
 
-                    case 0:
-                        return getResources().getString(R.string.fragment1);
-                    case 1:
-                        return getResources().getString(R.string.fragment2);
-                    case 2:
-                        return getResources().getString(R.string.fragment3);
+                case 0:
+                    return getResources().getString(R.string.fragment1);
+                case 1:
+                    return getResources().getString(R.string.fragment2);
+                case 2:
+                    return getResources().getString(R.string.fragment3);
 
-                }
+            }
 
             return null;
         }
     }
+
     @Override
     public void onBackPressed() {
 //        k++;

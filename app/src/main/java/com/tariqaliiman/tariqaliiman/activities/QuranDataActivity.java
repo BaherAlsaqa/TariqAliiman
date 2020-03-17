@@ -1,5 +1,6 @@
 package com.tariqaliiman.tariqaliiman.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -85,6 +86,9 @@ public class QuranDataActivity extends Activity {
 
         File mainDatabase = new File(Environment.getExternalStorageDirectory().
                 getAbsolutePath() + getString(R.string.app_folder_path) + "/quran.sqlite");
+        File imageFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                "/" + getResources().getString(R.string.app_folder_path) + "/quranpages_" +
+                AppPreference.getScreenResolution() + "/images/page" + 604 + ".png");
         if (!mainDatabase.exists()) {
             Log.d("baherdb", "(!mainDatabase.exists())");
             //copy database
@@ -106,9 +110,13 @@ public class QuranDataActivity extends Activity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
                 builder.setCancelable(false);
                 builder.setTitle(getResources().getString(R.string.Alert));
-                builder.setMessage(internetStatus == 1 ? getResources().
-                        getString(R.string.normal_download_alert) : getResources().getString(R.string.mobile_data_alert));
-                builder.setPositiveButton(getResources().getString(R.string.Ok), new DialogInterface.OnClickListener() {public void onClick(DialogInterface dialog, int id) {downloadInformation.setText("Connecting...");new Thread(downloadService).start();}});
+                builder.setMessage(internetStatus == 1 ?
+                        getResources().getString(R.string.normal_download_alert) :
+                        getResources().getString(R.string.mobile_data_alert));
+                builder.setPositiveButton(getResources().getString(R.string.Ok),
+                        new DialogInterface.OnClickListener() {public void onClick(DialogInterface dialog, int id) {
+                            downloadInformation.setText(getString(R.string.connecting));
+                            new Thread(downloadService).start();}});
                 builder.setNegativeButton(getResources().getString(R.string.Cancel), new DialogInterface.OnClickListener() {public void onClick(DialogInterface dialog, int id) {dialog.cancel();
                     System.exit(0);}});
                 builder.show();
@@ -160,7 +168,7 @@ public class QuranDataActivity extends Activity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        downloadInformation.setText("No enough memory");
+                        downloadInformation.setText(getString(R.string.no_enough_memory));
                     }
                 });
             }
@@ -172,6 +180,7 @@ public class QuranDataActivity extends Activity {
      */
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onReceive(Context context, Intent intent) {
 
@@ -185,7 +194,7 @@ public class QuranDataActivity extends Activity {
                     downloadProgress.setProgress(value);
                     Log.e("tag", "onReceive: max"+max/10000 );
                     Log.e("tag", "onReceive: value"+value/10000 );
-                    downloadInformation.setText("Downloading "+max / 10000 + " / " + value / 10000 +" ( "+(int)((value/10000)*100)/(max / 10000)+"%)");
+                    downloadInformation.setText(getString(R.string.downloading)+" "+max / 10000 + " / " + value / 10000 +" ( "+(int)((value/10000)*100)/(max / 10000)+"%)");
                 } else if (status.equals(AppConstants.Download.FAILED)) {
                     downloadProgress.setMax(1);
                     downloadProgress.setProgress(1);

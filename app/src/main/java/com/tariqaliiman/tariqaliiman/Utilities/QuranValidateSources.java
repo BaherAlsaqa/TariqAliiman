@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 
 import com.tariqaliiman.tariqaliiman.Application.QuranApplication;
+import com.tariqaliiman.tariqaliiman.Database.AppPreference;
 import com.tariqaliiman.tariqaliiman.R;
 
 import java.io.File;
@@ -28,17 +29,48 @@ public class QuranValidateSources {
         File main = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
                 context.getResources().getString(R.string.app_folder_path));
 
+        File qImage1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                context.getResources().getString(R.string.app_folder_path) + "/quranpages_" +
+                AppPreference.getScreenResolution() + "/images/page00" + 1 + ".png");
+
+        File qImage277 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                context.getResources().getString(R.string.app_folder_path) + "/quranpages_" +
+                AppPreference.getScreenResolution() + "/images/page" + 277 + ".png");
+
+        File qImage604 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                context.getResources().getString(R.string.app_folder_path) + "/quranpages_" +
+                AppPreference.getScreenResolution() + "/images/page" + 604 + ".png");
+
         File database = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
                 context.getResources().getString(R.string.app_folder_path) + "/" + "quran.sqlite");
 
-        if (!main.exists()) {
-            main.mkdirs();
-            return false;
-        }
+        try {
+            if (!main.exists()) {
+                main.mkdirs();
+                return false;
+            }
 
-        if (!database.exists()) {
-            main.mkdirs();
-            return false;
+            if (!qImage1.exists()) {
+                main.mkdirs();
+                return false;
+            }
+
+            if (!qImage277.exists()) {
+                main.mkdirs();
+                return false;
+            }
+
+            if (!qImage604.exists()) {
+                main.mkdirs();
+                return false;
+            }
+
+            if (!database.exists()) {
+                main.mkdirs();
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         File[] files = main.listFiles();

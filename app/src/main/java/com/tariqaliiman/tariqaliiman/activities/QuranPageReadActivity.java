@@ -84,6 +84,8 @@ import com.tariqaliiman.tariqaliiman.Models.Page;
 import com.tariqaliiman.tariqaliiman.Models.Reader;
 import com.tariqaliiman.tariqaliiman.Models.TranslationBook;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -716,6 +718,7 @@ public class QuranPageReadActivity extends AppCompatActivity implements SensorEv
          * @param position Position of view pager
          * @return Fragment in position
          */
+        @NotNull
         @Override
         public Fragment getItem(final int position) {
             return new QuranPageFragment().newInstance(position);
@@ -1077,7 +1080,7 @@ public class QuranPageReadActivity extends AppCompatActivity implements SensorEv
     /**
      * Function to create download link
      */
-    public List<String> createDownloadLinks() {
+    /*public List<String> createDownloadLinks() {
 
         List<String> downloadLinks = new ArrayList<>();
         ayaList.add(0, new Aya(1, 1, 1));
@@ -1108,7 +1111,7 @@ public class QuranPageReadActivity extends AppCompatActivity implements SensorEv
         }
         ayaList.remove(0);
         return downloadLinks;
-    }
+    }*/
 
     /**
      * Function to draw number in the bitmap

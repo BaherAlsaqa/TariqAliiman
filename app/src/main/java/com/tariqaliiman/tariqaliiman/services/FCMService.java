@@ -27,7 +27,7 @@ public class FCMService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Log.d(Contains.LOG+"fcm", "Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT");
             showNotification(Objects.requireNonNull(remoteMessage.getNotification()).getBody(),
                     1);
@@ -35,7 +35,7 @@ public class FCMService extends FirebaseMessagingService {
             Log.d(Contains.LOG+"fcm", "else  Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT");
             showNotification(remoteMessage.getNotification().getBody(),
                     1);
-        }
+        }*/
 
     }
 
