@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.Database.AppPreference;
 import com.tariqaliiman.tariqaliiman.Downloader.DownloadService;
 import com.tariqaliiman.tariqaliiman.R;
@@ -84,17 +85,15 @@ public class QuranDataActivity extends Activity {
 
         String AlertMsg;
 
-        File mainDatabase = new File(Environment.getExternalStorageDirectory().
-                getAbsolutePath() + getString(R.string.app_folder_path) + "/quran.sqlite");
-        File imageFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
-                "/" + getResources().getString(R.string.app_folder_path) + "/quranpages_" +
-                AppPreference.getScreenResolution() + "/images/page" + 604 + ".png");
+        File mainDatabase = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                getString(R.string.app_folder_path) + "/quran.sqlite");
+
         if (!mainDatabase.exists()) {
-            Log.d("baherdb", "(!mainDatabase.exists())");
+            Log.d(Constants.log+"download", "main database is exist");
             //copy database
             new CopyDatabase().execute();
         } else {
-            Log.d("baherdb", "(mainDatabase.exists())");
+            Log.d(Constants.log+"download", "main database is not exist, now must download database");
             downloadDialog();
         }
     }
@@ -115,6 +114,7 @@ public class QuranDataActivity extends Activity {
                         getResources().getString(R.string.mobile_data_alert));
                 builder.setPositiveButton(getResources().getString(R.string.Ok),
                         new DialogInterface.OnClickListener() {public void onClick(DialogInterface dialog, int id) {
+                            Log.d(Constants.log+"download", "dialog ok");
                             downloadInformation.setText(getString(R.string.connecting));
                             new Thread(downloadService).start();}});
                 builder.setNegativeButton(getResources().getString(R.string.Cancel), new DialogInterface.OnClickListener() {public void onClick(DialogInterface dialog, int id) {dialog.cancel();
@@ -151,16 +151,16 @@ public class QuranDataActivity extends Activity {
             //check file download length
             if (Integer.getInteger(FileManager.getDownloadFileLength(DownloadLink)) ==
                     Integer.getInteger(FileManager.getAvailableInternalMemorySize())) {
-
+                Log.d(Constants.log+"download", "available internal memory size");
                 //check if download service running
                 if (!Settingsss.isMyServiceRunning(QuranDataActivity.this, DownloadService.class)) {
-
+                    Log.d(Constants.log+"download", "service is not running");
                     AppPreference.setDownloadType(AppConstants.Preferences.IMAGES);
                     Intent serviceIntent = new Intent(QuranDataActivity.this, DownloadService.class);
                     serviceIntent.putExtra(AppConstants.Download.DOWNLOAD_URL, DownloadLink);
                     serviceIntent.putExtra(AppConstants.Download.DOWNLOAD_LOCATION, Environment
-                            .getExternalStorageDirectory()
-                            .getAbsolutePath() + getResources().getString(R.string.app_folder_path));
+                            .getExternalStorageDirectory().getAbsolutePath() +
+                            getResources().getString(R.string.app_folder_path));
                     startService(serviceIntent);
                 }
 

@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.Database.AppPreference;
 import com.tariqaliiman.tariqaliiman.Utilities.AppConstants;
 
@@ -42,11 +44,13 @@ public class DownloadService extends Service {
         String downloadLocation = extras.getString(AppConstants.Download.DOWNLOAD_LOCATION);
         int type = extras.getInt(AppConstants.Download.TYPE , -1);
         List<String> downloadLinks = extras.getStringArrayList(AppConstants.Download.DOWNLOAD_LINKS);
-
+        Log.d(Constants.log+"download", "service is running not sticky");
         if(downloadLinks == null){
+            Log.d(Constants.log+"download", "downloadLinks == null");
                 downloadManager = new DownloadManager(this, true ,type);
                 downloadManager.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, downloadURL, downloadLocation);
         } else{
+            Log.d(Constants.log+"download", "downloadLinks != null");
                 downloadManager = new DownloadManager(this, true, downloadLinks ,type);
                 downloadManager.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "", downloadLocation);
         }

@@ -3623,6 +3623,7 @@ Stream audio when possible (non-gapless audio only)
     <string name="no_enough_memory">No Enough Memory</string>
     <string name="connecting">Connecting…</string>
     <string name="download_failed_connection_lost">Download failed due to the connection is lost</string>
-    <string name="canceled">Canceled</string><!--Elapsed time :-->
+    <string name="canceled">Canceled</string>
+    <string name="download_alarm">يفضل عدم اغلاق التطبيق اثناء عملية التحميل لتجنب احتمال فشل التحميل.</string><!--Elapsed time :-->
 
 </resources>

@@ -119,10 +119,10 @@ public class FileManager {
      * @return Memory size
      */
     public static String getAvailableInternalMemorySize() {
-        File path = Environment.getDataDirectory();
+        File path = Environment.getExternalStorageDirectory();
         StatFs stat = new StatFs(path.getPath());
-        long blockSize = stat.getBlockSize();
-        long availableBlocks = stat.getAvailableBlocks();
+        long blockSize = stat.getBlockSizeLong();
+        long availableBlocks = stat.getAvailableBlocksLong();
         return formatSize(availableBlocks * blockSize);
     }
 
@@ -225,8 +225,7 @@ public class FileManager {
 
         //Audio file path
         return Environment
-                .getExternalStorageDirectory()
-                .getAbsolutePath()
+                .getExternalStorageDirectory().getAbsolutePath()
                 + context.getString(R.string.app_folder_path)
                 + "/Audio/" + reader + "/" + suraID
                 + ayaID + AppConstants.Extensions.MP3;

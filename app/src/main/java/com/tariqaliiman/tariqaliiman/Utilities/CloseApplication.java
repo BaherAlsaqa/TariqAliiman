@@ -28,7 +28,7 @@ public class CloseApplication extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
-        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
         HighlightImageView.selectionFromTouch = false;
 
 
@@ -66,6 +66,7 @@ public class CloseApplication extends Service {
 ////        super.onTaskRemoved(rootIntent);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        assert notificationManager != null;
         notificationManager.cancelAll();
 //        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -82,14 +83,15 @@ public class CloseApplication extends Service {
         try {
             File dir = context.getCacheDir();
             deleteDir(dir);
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
     }
 
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
+            assert children != null;
+            for (String child : children) {
+                boolean success = deleteDir(new File(dir, child));
                 if (!success) {
                     return false;
                 }

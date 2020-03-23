@@ -7,11 +7,15 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.net.Uri;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
@@ -31,6 +35,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.onesignal.OneSignal;
 import com.tariqaliiman.tariqaliiman.Application.QuranApplication;
+import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.Contains;
 import com.tariqaliiman.tariqaliiman.Database.AppPreference;
 import com.tariqaliiman.tariqaliiman.Database.DatabaseAccess;
@@ -48,6 +53,7 @@ import com.tariqaliiman.tariqaliiman.notification.NotificationHelper;
 import com.tariqaliiman.tariqaliiman.utils.AppSettings;
 import com.tariqaliiman.tariqaliiman.utils.AppSharedPreferences;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +75,7 @@ public class MenuActivity extends AppCompatActivity {
     private static final int REQUEST_WRITE_STORAGE = 112;
     private static final int REQUEST_WRITE_Settings = 113;
     private QuranApplication quranApplication;
+    public static File myExternalFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -361,6 +368,7 @@ public class MenuActivity extends AppCompatActivity {
                 Log.d("logonadclosed", "onAdClosed");
             }
         });
+
     }
 
     @Override
@@ -387,6 +395,7 @@ public class MenuActivity extends AppCompatActivity {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -435,19 +444,18 @@ public class MenuActivity extends AppCompatActivity {
                 if (!QuranValidateSources.validatAppMainFoldersAndFiles(MenuActivity.this) ||
                         (Settingsss.isMyServiceRunning(MenuActivity.this, DownloadService.class)
                                 && AppPreference.getDownloadType() == AppConstants.Preferences.IMAGES)) {
-                    Log.d("baherdb", "(!QuranValidateSources.validatAppMainFoldersAndFiles");
+                    Log.d(Constants.log+"download", "Validat App Main Folders And Files");
                     //set default preference font int web_view to the meduim font
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(MenuActivity.this);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("size" , "large");
-                    editor.commit();
-
+                    editor.apply();
                     Intent downloadActivity = new Intent(MenuActivity.this, QuranDataActivity.class);
                     startActivity(downloadActivity);
 //                    MenuActivity.this.finish();
 
                 } else {
-                    Log.d("baherdb", "(QuranValidateSources.validatAppMainFoldersAndFiles");
+                    Log.d(Constants.log+"download", "Not Validat App Main Folders And Files");
                     loadMainApplicationData();
 
                     Intent Home = new Intent(MenuActivity.this, HomeActivity.class);

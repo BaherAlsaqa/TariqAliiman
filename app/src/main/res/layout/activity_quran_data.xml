@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Connecting..."
+        android:text="@string/connecting"
         android:id="@+id/textView"
         android:layout_marginBottom="10dp"
         android:textColor="@color/colorPrimary"
@@ -51,6 +51,23 @@
         android:background="@color/colorPrimary"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/marginstartend20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="@dimen/marginstartend20dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="@string/download_alarm"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp" />
 
 
 </LinearLayout>

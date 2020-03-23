@@ -21,6 +21,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.tariqaliiman.tariqaliiman.Application.QuranApplication;
+import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.Database.AppPreference;
 import com.tariqaliiman.tariqaliiman.R;
 import com.tariqaliiman.tariqaliiman.activities.MainActivity;
@@ -86,6 +87,7 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
     public DownloadManager(Context context, boolean notificationDownloaderFlag , int downloadType) {
 
         Log.i("TAFSEER_DOWN_TAG" , "start download tafseer");
+        Log.d(Constants.log+"download", "start download tafseer without download likes");
         this.downloadType = downloadType;
         this.context = context;
         this.notificationDownloaderFlag = notificationDownloaderFlag;
@@ -148,6 +150,7 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
     public DownloadManager(Context context, boolean notificationDownloaderFlag, List<String> downloadLinks, int downloadType) {
 
         Log.i("TAFSEER_DOWN_TAG" , "start download tafseer");
+        Log.d(Constants.log+"download", "start download tafseer");
         this.context = context;
         this.downloadLinks = downloadLinks;
         this.notificationDownloaderFlag = notificationDownloaderFlag;
@@ -176,12 +179,15 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
 
         try {
             if (downloadLinks != null) {
+                Log.d(Constants.log+"download", "download linkes != null >> multi download"+url[1]);
                 return multiDownload(downloadLinks, url[1]);
             } else {
+                Log.d(Constants.log+"download", "download linkes == null >> single download"+url[0]+" || "+url[1]);
                 return singleDownload(url[0], url[1]);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d(Constants.log+"download", "error = "+e.getLocalizedMessage());
             Log.e(DownloadManager.class.getSimpleName(), "e : " + e.getLocalizedMessage());
         }
 
@@ -206,7 +212,7 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
 
 
 
-    public boolean  singleDownload(String link, String downloadLocation) throws IOException {
+    public boolean singleDownload(String link, String downloadLocation) throws IOException {
         //file name
         CacheControl cacheControl = null;
         fileName = link.substring(link.lastIndexOf('/') + 1, link.length());
@@ -244,8 +250,9 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
 
         //susses request
         if (response.code() == 200) {
+            Log.d(Constants.log+"download", "response.code() == 200");
             InputStream inputStream = null;
-            OutputStream output = null;
+            FileOutputStream output = null;
 
             try {
                 //path response to input stream
@@ -348,7 +355,7 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
             //susses request
             // if (response.code() == 200) {
             InputStream inputStream = null;
-            OutputStream output = null;
+            FileOutputStream output = null;
 
             try {
                 //path response to input stream

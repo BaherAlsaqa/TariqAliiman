@@ -23,7 +23,6 @@ public class QuranValidateSources {
      * @return folder found of not
      */
     public static boolean validatAppMainFoldersAndFiles(Context context) {
-
         boolean foundQuranPages = false;
 
         File main = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
@@ -100,8 +99,8 @@ public class QuranValidateSources {
      */
     public static List<Integer> getDownloadedTransaltions() {
         List<Integer> tafaseerIDs = new ArrayList<Integer>();
-        File tafaseer = new File(Environment.getExternalStorageDirectory()
-                .getAbsolutePath() + QuranApplication.getInstance().getString(R.string.app_folder_path) + "/tafaseer");
+        File tafaseer = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                QuranApplication.getInstance().getString(R.string.app_folder_path) + "/tafaseer");
 
         if (tafaseer.exists()) {
             String databaseName = null;
@@ -146,8 +145,7 @@ public class QuranValidateSources {
 
         //Audio file path
         String filePath = Environment
-                .getExternalStorageDirectory()
-                .getAbsolutePath()
+                .getExternalStorageDirectory().getAbsolutePath()
                 + context.getString(R.string.app_folder_path)
                 + "/Audio/" + reader+"/"+suraID
                 + ayaID + AppConstants.Extensions.MP3;

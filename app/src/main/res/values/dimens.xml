@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="radius5dp">5dp</dimen>
-    <dimen name="text16sp">16sp</dimen>
-    <dimen name="text14sp">14sp</dimen>
+    <dimen name="text16sp">18sp</dimen>
+    <dimen name="text14sp">16sp</dimen>
     <dimen name="margintop20dp">20dp</dimen>
     <dimen name="marginbottom20dp">20dp</dimen>
     <dimen name="marginend100dp">100dp</dimen>
     <dimen name="gap1dp">1dp</dimen>
-    <dimen name="text10sp">10sp</dimen>
+    <dimen name="text10sp">12sp</dimen>
     <dimen name="radius25dp">25dp</dimen>
 
     <dimen name="space_half">4dp</dimen>
@@ -21,7 +21,7 @@
     <dimen name="card_width">320dp</dimen>
     <dimen name="activity_horizontal_margin">@dimen/space</dimen>
     <dimen name="activity_vertical_margin">@dimen/space</dimen>
-    <dimen name="text18sp">18sp</dimen>
+    <dimen name="text18sp">20sp</dimen>
 
     <dimen name="fab_margin">0dp</dimen>
     <dimen name="appbar_padding_top">0dp</dimen>

@@ -54,7 +54,7 @@ public class QuranKareem extends AppCompatActivity implements OnPageChangeListen
         MobileAds.initialize(this, getString(R.string.IDAPP));
         appSharedPreferences = new AppSharedPreferences(getApplicationContext());
 
-        pdfView.fromAsset("pdfs/the_holy_quran_arabic.pdf")
+        /*pdfView.fromAsset("pdfs/the_holy_quran_arabic.pdf")
                 .enableSwipe(true) // allows to block changing pages using swipe
                 .swipeHorizontal(false)
                 .defaultPage(pageNumber)
@@ -73,7 +73,7 @@ public class QuranKareem extends AppCompatActivity implements OnPageChangeListen
                 .onLoad(this)
                 .scrollHandle(new DefaultScrollHandle(this))
                 .onPageError(this)
-                .load();
+                .load();*/
 
         // View Ads
         AdView adView = new AdView(this);

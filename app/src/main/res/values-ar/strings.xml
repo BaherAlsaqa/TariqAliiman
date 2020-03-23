@@ -3506,4 +3506,5 @@
     <string name="connecting">جاري الاتصال …</string>
     <string name="download_failed_connection_lost">فشل التنزيل بسبب فقد الاتصال</string>
     <string name="canceled">تم الالغاء</string>
+    <string name="download_alarm">يفضل عدم اغلاق التطبيق اثناء عملية التحميل لتجنب احتمال فشل التحميل.</string>
 </resources>
