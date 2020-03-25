@@ -186,6 +186,8 @@ public class SalaatTimesFragment extends Fragment implements Constants {
   }
 
   private String getPearerTime(String timeV) {
+    int hours = 0;
+    int mins = 0;
     String[] ampm = timeV.split(" ", 2);
     String[] time1 = ampm[0].split(":", 2);
     if (time1[0].length() == 1){
@@ -194,14 +196,12 @@ public class SalaatTimesFragment extends Fragment implements Constants {
       timeV = timeV.toUpperCase(Locale.US);
     }
     Date date1 = new Date();
-    @SuppressLint("SimpleDateFormat") SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm", Locale.US);
-    @SuppressLint("SimpleDateFormat") SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a", Locale.US);
+    @SuppressLint("SimpleDateFormat") SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm");
+    @SuppressLint("SimpleDateFormat") SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a");
     Date date24 = null;
     try {
       date24 = parseFormat.parse(timeV);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
+
     assert date24 != null;
     String time24 = displayFormat.format(date24);
     /*String result = null;
@@ -226,8 +226,8 @@ public class SalaatTimesFragment extends Fragment implements Constants {
     long mills =  date.getTime() - date1.getTime();
     Log.d(Constants.log+"Data1", ""+date1.getTime());
     Log.d(Constants.log+"Data", ""+date.getTime());
-    int hours = (int) (mills/(1000 * 60 * 60));
-    int mins = (int) (mills/(1000*60)) % 60;
+    hours = (int) (mills/(1000 * 60 * 60));
+    mins = (int) (mills/(1000*60)) % 60;
     /*int hours = 0;
     int mins = 0;
     try {
@@ -250,6 +250,9 @@ public class SalaatTimesFragment extends Fragment implements Constants {
       e.printStackTrace();
     }*/
     Log.d(Constants.log+"result", "h = "+hours+" m = "+mins);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
 //    String result = hours +" "+ getString(R.string.hours) +" "+ mins +" "+ getString(R.string.minits);
     return hours+":"+ mins;
 //    return "";

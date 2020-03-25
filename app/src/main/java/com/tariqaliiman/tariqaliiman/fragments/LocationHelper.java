@@ -28,6 +28,8 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.utils.PermissionUtil;
 
+import org.jetbrains.annotations.NotNull;
+
 public class LocationHelper extends Fragment implements Constants, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
   private static Location sLastLocation;
 
@@ -160,7 +162,7 @@ public class LocationHelper extends Fragment implements Constants, GoogleApiClie
 
     result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
       @Override
-      public void onResult(LocationSettingsResult result) {
+      public void onResult(@NotNull LocationSettingsResult result) {
         final Status status = result.getStatus();
         switch (status.getStatusCode()) {
           case LocationSettingsStatusCodes.SUCCESS:
@@ -171,13 +173,15 @@ public class LocationHelper extends Fragment implements Constants, GoogleApiClie
           case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
             // Location settings are not satisfied. But could be fixed by showing the user
             // a dialog.
+
             try {
               // Show the dialog by calling startResolutionForResult(),
               // and check the result in onActivityResult().
               status.startResolutionForResult(getActivity(), REQUEST_CHECK_SETTINGS);
             } catch (IntentSender.SendIntentException e) {
-              // Ignore the error.
+              e.printStackTrace();
             }
+
             break;
           case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
             // Location settings are not satisfied. However, we have no way to fix the

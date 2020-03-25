@@ -95,11 +95,13 @@ public class SabahMasaaDetails extends AppCompatActivity {
                         counterAthkar -= 1;
                         counter.setText(counterAthkar + "");
                         if (counterAthkar == 0){
-                            index += 1;
-                            counter.setText(counters[index]);
-                            contentTV.setText(contents[index]);
-                            referenceTV.setText(references[index]);
-                            counterAthkar = Integer.parseInt(counters[index]);
+                            if (index < ids.length - 1) {
+                                index += 1;
+                                counter.setText(counters[index]);
+                                contentTV.setText(contents[index]);
+                                referenceTV.setText(references[index]);
+                                counterAthkar = Integer.parseInt(counters[index]);
+                            }
                         }
                     }
                 }
