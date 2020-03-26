@@ -201,9 +201,16 @@ public class SalaatTimesFragment extends Fragment implements Constants {
     Date date24 = null;
     try {
       date24 = parseFormat.parse(timeV);
-
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
     assert date24 != null;
-    String time24 = displayFormat.format(date24);
+    String time24 = null;
+    try {
+      time24 = displayFormat.format(date24);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     /*String result = null;
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
       result =                                       // Text representing the value of our date-time object.
@@ -218,6 +225,7 @@ public class SalaatTimesFragment extends Fragment implements Constants {
               ;
     }*/
 //    String[] ampm = result.split(" ", 2);
+    assert time24 != null;
     String[] time = time24.split(":", 2);
     Log.d(Constants.log, "time0 = "+time[0]+" time1 = "+time[1]);
     String minutes = time[1].substring(0, 2);
@@ -250,9 +258,6 @@ public class SalaatTimesFragment extends Fragment implements Constants {
       e.printStackTrace();
     }*/
     Log.d(Constants.log+"result", "h = "+hours+" m = "+mins);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
 //    String result = hours +" "+ getString(R.string.hours) +" "+ mins +" "+ getString(R.string.minits);
     return hours+":"+ mins;
 //    return "";
