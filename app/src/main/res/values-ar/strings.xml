@@ -3359,7 +3359,7 @@
     <string name="no">لا</string>
     <string name="Ok">نعم</string>
     <string name="Cancel">إلغاء</string>
-    <string name="Alert">تنبية</string>
+    <string name="Alert">تنبيه</string>
     <string name="page">صفحة</string>
     <string name="juza">جزء</string>
     <string name="empty_bookmark">لا يوجد تعليمات محفوظة</string>
@@ -3506,5 +3506,8 @@
     <string name="connecting">جاري الاتصال …</string>
     <string name="download_failed_connection_lost">فشل التنزيل بسبب فقد الاتصال</string>
     <string name="canceled">تم الالغاء</string>
-    <string name="download_alarm">يفضل عدم اغلاق التطبيق اثناء عملية التحميل لتجنب احتمال فشل التحميل.</string>
+    <string name="download_alarm">يفضل عدم اغلاق التطبيق لتجنب احتمال فشل التحميل.</string>
+    <string name="todo">TODO</string>
+    <string name="startquran">إبدأ القرآن</string>
+    <string name="wake_stay">سوف يبقى جهازك مستيقظاً أثناء عملية التحميل</string>
 </resources>

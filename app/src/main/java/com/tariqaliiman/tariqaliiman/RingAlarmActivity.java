@@ -234,7 +234,11 @@ public class RingAlarmActivity extends AppCompatActivity implements Constants, V
       mMediaPlayer.release();
       mMediaPlayer = null;
       if (mOriginalVolume != -1) {
-        mAudioManager.setStreamVolume(mAudioStream, mOriginalVolume, 0);
+        try {
+          mAudioManager.setStreamVolume(mAudioStream, mOriginalVolume, 0);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
       }
     }
 
@@ -287,8 +291,7 @@ public class RingAlarmActivity extends AppCompatActivity implements Constants, V
 
     PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, SalaatTimesActivity.class), PendingIntent.FLAG_CANCEL_CURRENT);
 
-    NotificationCompat.Builder mBuilder =
-        new NotificationCompat.Builder(this)
+    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "FileDownload")
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(title)
             .setStyle(new NotificationCompat.BigTextStyle()

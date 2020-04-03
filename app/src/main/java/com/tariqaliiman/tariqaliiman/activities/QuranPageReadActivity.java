@@ -1228,8 +1228,8 @@ public class QuranPageReadActivity extends AppCompatActivity implements SensorEv
     public void showNotificationDownloader() {
 
         remoteViews = new RemoteViews(this.getPackageName(), R.layout.notification_download_progress);
-        builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(aboveLollipopFlag ? R.drawable.ic_quran_trans : R.drawable.logo)
+        builder = new NotificationCompat.Builder(this, "FileDownload")
+                .setSmallIcon(aboveLollipopFlag ? R.mipmap.ic_launcher_round : R.mipmap.ic_launcher_round)
                 .setColor(Color.parseColor("#3E686A"))
 
                 .setContentTitle(this.getString(R.string.app_name))
@@ -1241,8 +1241,8 @@ public class QuranPageReadActivity extends AppCompatActivity implements SensorEv
 
     public void cancelNotification() {
         remoteViews = new RemoteViews(this.getPackageName(), R.layout.notification_download_progress);
-        builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(aboveLollipopFlag ? R.drawable.ic_quran_trans : R.drawable.logo)
+        builder = new NotificationCompat.Builder(this, "FileDownload")
+                .setSmallIcon(aboveLollipopFlag ? R.mipmap.ic_launcher_round : R.mipmap.ic_launcher_round)
                 .setColor(Color.parseColor("#3E686A"));
         builder.setAutoCancel(true);
     }

@@ -34,8 +34,9 @@ import java.lang.ref.WeakReference;
  * Quran read fragment
  */
 public class QuranPageFragment extends Fragment {
-    public static boolean SELECTION = false, isPauseResume;
-    public HighlightImageView QuranImageLandscape, QuranImagePortrait;
+    public static boolean SELECTION = false;
+    private static boolean isPauseResume;
+    private HighlightImageView QuranImageLandscape, QuranImagePortrait;
     private WeakReference<HighlightImageView> quranImageLandscapeWeak;
     private WeakReference<HighlightImageView> quranImagePortraitWeak;
     private ScrollView master;

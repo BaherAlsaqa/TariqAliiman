@@ -8,10 +8,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -47,6 +49,7 @@ public class QuranDataActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quran_data);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         init();
 
     }
@@ -116,7 +119,10 @@ public class QuranDataActivity extends Activity {
                         new DialogInterface.OnClickListener() {public void onClick(DialogInterface dialog, int id) {
                             Log.d(Constants.log+"download", "dialog ok");
                             downloadInformation.setText(getString(R.string.connecting));
-                            new Thread(downloadService).start();}});
+                            new Thread(downloadService).start();
+                        }
+                }
+                );
                 builder.setNegativeButton(getResources().getString(R.string.Cancel), new DialogInterface.OnClickListener() {public void onClick(DialogInterface dialog, int id) {dialog.cancel();
                     System.exit(0);}});
                 builder.show();
@@ -161,7 +167,16 @@ public class QuranDataActivity extends Activity {
                     serviceIntent.putExtra(AppConstants.Download.DOWNLOAD_LOCATION, Environment
                             .getExternalStorageDirectory().getAbsolutePath() +
                             getResources().getString(R.string.app_folder_path));
-                    startService(serviceIntent);
+                    try {
+                        getBaseContext().startService(serviceIntent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            getBaseContext().startForegroundService(serviceIntent);
+                        }else{
+                            getBaseContext().startService(serviceIntent);
+                        }
+                    }
                 }
 
             } else {

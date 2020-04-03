@@ -3618,12 +3618,14 @@ Stream audio when possible (non-gapless audio only)
     <string name="hours">Hours</string>
     <string name="minits">Minute</string>
     <string name="click">Click</string>
-    <string name="elapsedtime">الوقت المنقضي :</string>
+    <string name="elapsedtime">الوقت المنقضي :</string><!--Elapsed time :-->
     <string name="downloading">Downloading </string>
     <string name="no_enough_memory">No Enough Memory</string>
     <string name="connecting">Connecting…</string>
     <string name="download_failed_connection_lost">Download failed due to the connection is lost</string>
     <string name="canceled">Canceled</string>
-    <string name="download_alarm">يفضل عدم اغلاق التطبيق اثناء عملية التحميل لتجنب احتمال فشل التحميل.</string><!--Elapsed time :-->
-
+    <string name="download_alarm">يفضل عدم اغلاق التطبيق لتجنب احتمال فشل التحميل.</string>
+    <string name="todo">TODO</string>
+    <string name="startquran">Start Quran</string>
+    <string name="wake_stay">سوف يبقى جهازك مستيقظاً أثناء عملية التحميل</string>
 </resources>

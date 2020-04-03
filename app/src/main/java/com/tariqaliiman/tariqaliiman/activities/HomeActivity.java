@@ -32,15 +32,12 @@ import com.tariqaliiman.tariqaliiman.Utilities.CloseApplication;
 import com.tariqaliiman.tariqaliiman.Utilities.QuranConfig;
 import com.google.android.material.tabs.TabLayout;
 
-//import java.awt.Font;
-//import java.awt.FontFormatException;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Activity class Home page to choose Quran page read
  */
 public class HomeActivity extends AppCompatActivity {
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
     int k;
     boolean doubleBackToExitPressedOnce = false;
 
@@ -78,14 +75,14 @@ public class HomeActivity extends AppCompatActivity {
         k = 0;
 
         AppPreference.setSelectionVerse(null);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name_main));
         setSupportActionBar(toolbar);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        ViewPager mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setTabTextColors(Color.parseColor("#ffffff"), Color.parseColor("#ffffff"));
         tabLayout.setupWithViewPager(mViewPager);
         if (getIntent() != null) {
@@ -197,10 +194,11 @@ public class HomeActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
+        @NotNull
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
@@ -212,9 +210,9 @@ public class HomeActivity extends AppCompatActivity {
                     return new QuarterFragment();
                 case 2:
                     return new BookmarkFragment();
+                default:
+                    throw new IllegalStateException("Unexpected value: " + position);
             }
-
-            return null;
         }
 
         @Override

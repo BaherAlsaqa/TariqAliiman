@@ -29,10 +29,11 @@ import java.util.Locale;
  */
 public class PartShowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<Sora> items ;
+    private List<Sora> items;
     private Typeface customFont;
-int x=0;
-    private  boolean isTabletDevice;
+    int x = 0;
+    private boolean isTabletDevice;
+
     /**
      * Constructor for part show adapter
      *
@@ -41,7 +42,7 @@ int x=0;
      */
     public PartShowAdapter(Context context, List<Sora> items) {
         this.context = context;
-        this.items = items ;
+        this.items = items;
         customFont = Typeface.createFromAsset(context.getAssets(), "fonts/elmasri.ttf");
         isTabletDevice = isTablet(context);
     }
@@ -55,14 +56,14 @@ int x=0;
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        if(viewType != -1){
+        if (viewType != -1) {
 
             // sora name.
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_surah , parent , false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_surah, parent, false);
             return new ViewHolder(view);
-        }else{
+        } else {
             //header mame
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_sura_separator , parent , false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_sura_separator, parent, false);
             return new ViewHolderSplitter(view);
         }
 
@@ -73,25 +74,25 @@ int x=0;
 
         final Sora sora = items.get(position);
 
-        if(getItemViewType(position) != -1){
+        if (getItemViewType(position) != -1) {
             String currentLanguage = Resources.getSystem().getConfiguration().locale.getLanguage();
             Log.d(Constants.log, "current language = " + currentLanguage);
             String soraNameText = currentLanguage.equals("ar") ? sora.name : sora.name_english.replace("$$$", "'");
-            ((ViewHolder) holder).number.setText(Settingsss.ChangeNumbers(context , sora.getSoraTag()));
+            ((ViewHolder) holder).number.setText(Settingsss.ChangeNumbers(context, sora.getSoraTag()));
             ((ViewHolder) holder).soraName.setText(Settingsss.ChangeNumbers(context, context.getResources().getString(R.string.sora) + " " + soraNameText));
             ((ViewHolder) holder).ayaCount.setText(Settingsss.ChangeNumbers(context, (sora.places == 1 ? context.getResources().getString(R.string.type1) : context.getResources().getString(R.string.type2)) + " - " + (sora.startPageNumber == 1 ? 7 : sora.ayahCount) + " " + context.getResources().getString(R.string.ayat)));
             ((ViewHolder) holder).pageNumbers.setText(Settingsss.ChangeNumbers(context, sora.startPageNumber + ""));
-            if(isTabletDevice){
+            if (isTabletDevice) {
                 ((ViewHolder) holder).soraName.setTextSize(30);
                 ((ViewHolder) holder).ayaCount.setTextSize(25);
                 ((ViewHolder) holder).pageNumbers.setTextSize(25);
 
             }
-        }else{
+        } else {
 
             ((ViewHolderSplitter) holder).jozaNumber.setText(Settingsss.ChangeNumbers(context, context.getString(R.string.juza) + " " + sora.jozaNumber));
-            ((ViewHolderSplitter) holder).pageNumber.setText(Settingsss.ChangeNumbers(context , sora.startPageNumber+""));
-            if(isTabletDevice){
+            ((ViewHolderSplitter) holder).pageNumber.setText(Settingsss.ChangeNumbers(context, sora.startPageNumber + ""));
+            if (isTabletDevice) {
                 ((ViewHolderSplitter) holder).jozaNumber.setTextSize(30);
                 ((ViewHolderSplitter) holder).pageNumber.setTextSize(20);
             }
@@ -103,9 +104,9 @@ int x=0;
             public void onClick(View v) {
 
 
-                 if(sora.ayahCount != -1){
+                if (sora.ayahCount != -1) {
 
-                }else{
+                } else {
 
                 }
 
@@ -120,7 +121,7 @@ int x=0;
     @Override
     public int getItemCount() {
 
-    return items.size();
+        return items.size();
 
     }
 
@@ -129,12 +130,13 @@ int x=0;
      */
     private class ViewHolder extends RecyclerView.ViewHolder {
 
-         TextView soraName, ayaCount, pageNumbers, number;
-         RelativeLayout eelativeLayout;
-         ViewHolder(View layout) {
+        TextView soraName, ayaCount, pageNumbers, number;
+        RelativeLayout eelativeLayout;
+
+        ViewHolder(View layout) {
             super(layout);
 
-            eelativeLayout=(RelativeLayout)layout.findViewById(R.id.eelativeLayout);
+            eelativeLayout = (RelativeLayout) layout.findViewById(R.id.eelativeLayout);
             soraName = (TextView) layout.findViewById(R.id.textView5);
             ayaCount = (TextView) layout.findViewById(R.id.textView6);
             pageNumbers = (TextView) layout.findViewById(R.id.textView7);
@@ -151,9 +153,9 @@ int x=0;
      * Adapter view holder for part
      */
     private class ViewHolderSplitter extends RecyclerView.ViewHolder {
-        public TextView jozaNumber , pageNumber;
+        public TextView jozaNumber, pageNumber;
 
-         ViewHolderSplitter(View layout) {
+        ViewHolderSplitter(View layout) {
             super(layout);
 
             jozaNumber = (TextView) layout.findViewById(R.id.textView8);
@@ -162,7 +164,8 @@ int x=0;
             pageNumber.setTypeface(customFont);
         }
     }
-     private static boolean isTablet(Context context) {
+
+    private static boolean isTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }

@@ -295,7 +295,8 @@ public class SetAlarmActivity extends AppCompatActivity implements Constants,
               mMediaPlayer.release();
               mMediaPlayer = null;
             }
-            settings.set(AppSettings.Key.SELECTED_RINGTONE, mLastSelectedRingtone.toString());
+            settings.set(AppSettings.Key.SELECTED_RINGTONE,
+                    mLastSelectedRingtone != null ? mLastSelectedRingtone.toString() : null);
             settings.set(AppSettings.Key.SELECTED_RINGTONE_NAME, mLastSelectedRingtoneName);
             //Update the textview
             mRingtone.setText(getString(R.string.set_alarm_select_ringtone,

@@ -542,9 +542,9 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
             String channelID = createNotificationChannel(context);
             builder = new NotificationCompat.Builder(context, channelID);
         } else {
-            builder = new NotificationCompat.Builder(context);
+            builder = new NotificationCompat.Builder(context, "FileDownload");
         }
-        builder.setSmallIcon(aboveLollipopFlag ? R.drawable.ic_quran_trans : R.drawable.logo)
+        builder.setSmallIcon(aboveLollipopFlag ? R.mipmap.ic_launcher_round : R.mipmap.ic_launcher_round)
                 .setColor(Color.parseColor("#3E686A"))
                 .setProgress(100, 0, false)
                 .setContentTitle(context.getString(R.string.app_name))
@@ -565,9 +565,9 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
             String channelID = createNotificationChannel(context);
             builder = new NotificationCompat.Builder(context, channelID);
         } else {
-            builder = new NotificationCompat.Builder(context);
+            builder = new NotificationCompat.Builder(context, "FileDownload");
         }
-        builder.setSmallIcon(aboveLollipopFlag ? R.drawable.ic_quran_trans : R.drawable.logo)
+        builder.setSmallIcon(aboveLollipopFlag ? R.mipmap.ic_launcher_round : R.mipmap.ic_launcher_round)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(context.getString(R.string.download_complete))
                 .setColor(Color.parseColor("#3E686A"));
@@ -586,9 +586,9 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
             String channelID = createNotificationChannel(context);
             builder = new NotificationCompat.Builder(context, channelID);
         } else {
-            builder = new NotificationCompat.Builder(context);
+            builder = new NotificationCompat.Builder(context, "FileDownload");
         }
-        builder.setSmallIcon(aboveLollipopFlag ? R.drawable.ic_quran_trans : R.drawable.logo)
+        builder.setSmallIcon(aboveLollipopFlag ? R.mipmap.ic_launcher_round : R.mipmap.ic_launcher_round)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(context.getString(R.string.download_failed))
                 .setColor(Color.parseColor("#3E686A"));
@@ -605,9 +605,9 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
             String channelID = createNotificationChannel(context);
             builder = new NotificationCompat.Builder(context, channelID);
         } else {
-            builder = new NotificationCompat.Builder(context);
+            builder = new NotificationCompat.Builder(context, "FileDownload");
         }
-        builder.setSmallIcon(aboveLollipopFlag ? R.drawable.ic_quran_trans : R.drawable.logo)
+        builder.setSmallIcon(aboveLollipopFlag ? R.mipmap.ic_launcher_round : R.mipmap.ic_launcher_round)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(context.getString(R.string.canceled))
                 .setColor(Color.parseColor("#3E686A"));
