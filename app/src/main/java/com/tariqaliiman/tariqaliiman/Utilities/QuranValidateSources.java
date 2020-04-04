@@ -73,14 +73,14 @@ public class QuranValidateSources {
         }
 
         File[] files = main.listFiles();
+        assert files != null;
         for (File file : files) {
             if (file.getName().contains("quranpages")) {
                 if (!(file.getName().contains(".zip"))) foundQuranPages = true;
                 break;
             }
         }
-        if (foundQuranPages != true) return false;
-        return true;
+        return foundQuranPages;
     }
 
     /**
@@ -105,6 +105,7 @@ public class QuranValidateSources {
         if (tafaseer.exists()) {
             String databaseName = null;
             File[] files = tafaseer.listFiles();
+            assert files != null;
             for (File file : files) {
                 if (!file.getName().contains("journal")) {
                     databaseName = file.getName().replace("tafseer", "").replace(".sqlite", "");
