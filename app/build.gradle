@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        maven { url 'https://plugins.gradle.org/m2/'}
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
         classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.12.6'
@@ -33,7 +33,7 @@ android {
         multiDexEnabled true
 
         manifestPlaceholders = [
-                onesignal_app_id: 'ce0a5bba-94a3-4d5b-a16d-0d9bb102bcb5',
+                onesignal_app_id               : 'ce0a5bba-94a3-4d5b-a16d-0d9bb102bcb5',
                 // Project number pulled from dashboard, local value is ignored.
                 onesignal_google_project_number: 'REMOTE'
         ]
@@ -73,7 +73,11 @@ dependencies {
     implementation 'com.onesignal:OneSignal:3.12.6'
     implementation 'com.google.firebase:firebase-analytics:17.3.0'
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta03'
-
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

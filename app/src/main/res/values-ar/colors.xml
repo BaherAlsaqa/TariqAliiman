@@ -4,9 +4,11 @@
     <color name="colorPrimaryDark">#32A51F</color><!--168B01|629122-->
     <color name="colorAccent">#c1913b</color>
     <color name="colorAccent1">#D5A44E</color>
+    <color name="colorAccent2">#E8D5A44E</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#FCADADAD</color>
     <color name="gray1">#FC999797</color>
+    <color name="gray4">#E0E0E0</color>
 
     <!-- THEME DEFAULT -->
     <color name="green_primary">#51B631</color>
@@ -37,4 +39,5 @@
     <color name="itemHomeActivity">#303030</color>
     <color name="white1">#E6E6E6</color>
     <color name="black">#000000</color>
+    <color name="gradient_white">#031C0200</color>
 </resources>

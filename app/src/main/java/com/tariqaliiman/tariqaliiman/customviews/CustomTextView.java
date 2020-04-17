@@ -18,11 +18,11 @@ public class CustomTextView extends AppCompatTextView {
         init(context);
     }
 
-    /*public CustomTextView(Context context, AttributeSet attrs) {
+    public CustomTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         init(context);
-    }*/
+    }
 
     public CustomTextView(Context context) {
         super(context);

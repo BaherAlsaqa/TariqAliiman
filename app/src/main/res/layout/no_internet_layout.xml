@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_no_internet_connection" />
+
+    <com.tariqaliiman.tariqaliiman.customviews.CustomBoldTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:gravity="center"
+        android:text="@string/no_internet"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text16sp"
+        android:background="@drawable/shape_back_text"
+        android:paddingTop="@dimen/margintop5dp"
+        android:padding="@dimen/marginbottom5dp"
+        android:paddingStart="@dimen/paddingstartend10dp"
+        android:paddingEnd="@dimen/paddingstartend10dp"/>
+</LinearLayout>

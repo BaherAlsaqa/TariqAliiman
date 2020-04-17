@@ -63,7 +63,7 @@ import static com.tariqaliiman.tariqaliiman.Constants.REQUEST_TNC;
 
 public class MenuActivity extends AppCompatActivity {
 
-    private Button muslim, sereen, quran, settings, prayerTimings;
+    private Button muslim, sereen, quran, settings, prayerTimings, book;
     private String hours, minutes;
     private AppSharedPreferences appSharedPreferences;
     private int x = 0;
@@ -92,6 +92,7 @@ public class MenuActivity extends AppCompatActivity {
         quran = findViewById(R.id.quran);
         settings = findViewById(R.id.settings);
         prayerTimings = findViewById(R.id.prayertimings);
+        book = findViewById(R.id.books);
         LayoutInflater inflator = LayoutInflater.from(this);
         View v = inflator.inflate(R.layout.titleview, null);
         ((TextView) v.findViewById(R.id.title1)).setText(this.getTitle());
@@ -230,6 +231,29 @@ public class MenuActivity extends AppCompatActivity {
                     Log.d("log" + "131", "x = "+x);
                     appSharedPreferences.writeInteger(Contains.cont_ads, 0);
                 }
+            }
+        });
+
+        book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), BooksActivity.class));
+                /*x = appSharedPreferences.readInteger(Contains.cont_ads);
+                Log.d(Contains.log + "7", "x = " + x);
+                appSharedPreferences.writeInteger(Contains.cont_ads, x + 1);
+                x = appSharedPreferences.readInteger(Contains.cont_ads);
+                if (x==1 | x==5) {
+                    // Show Interstitial Ads
+                    if (mInterstitialAd1.isLoaded()) {
+                        mInterstitialAd1.show();
+                        Log.d("log" + "131", "mInterstitialAd1.show. x = "+x);
+                    } else {
+                        Log.d("log" + "131", "The interstitial1 wasn't loaded yet. x = "+x);
+                    }
+                }else if (x>=9){
+                    Log.d("log" + "131", "x = "+x);
+                    appSharedPreferences.writeInteger(Contains.cont_ads, 0);
+                }*/
             }
         });
 

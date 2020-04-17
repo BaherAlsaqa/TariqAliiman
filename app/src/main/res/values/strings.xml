@@ -3628,4 +3628,14 @@ Stream audio when possible (non-gapless audio only)
     <string name="todo">TODO</string>
     <string name="startquran">Start Quran</string>
     <string name="wake_stay">سوف يبقى جهازك مستيقظاً أثناء عملية التحميل</string>
+    <string name="books">Books</string>
+    <string name="username">book</string>
+    <string name="password">book123456</string>
+    <string name="authername">Auther Name :</string>
+    <string name="bookdescription">Book Description :</string>
+    <string name="no_internet">انقطع الاتصال بالانترنت</string>
+    <string name="empty_list">لا يوجد بيانات</string>
+    <string name="error">يرجى المحاولة في وقت لاحق</string>
+    <string name="firstLevel">المستوى الأول</string>
+    <string name="page_number">"رقم الصفحة : "</string>
 </resources>
