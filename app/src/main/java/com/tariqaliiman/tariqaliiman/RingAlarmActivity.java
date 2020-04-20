@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -275,14 +276,30 @@ public class RingAlarmActivity extends AppCompatActivity implements Constants, V
   private void sendNotification(boolean interrupted) {
     Calendar now = Calendar.getInstance(TimeZone.getDefault());
     now.setTimeInMillis(System.currentTimeMillis());
-
+    //todo you must to set notification with prayer name
     String formatString = " %1$tl:%1$tM %1$tp " + getString(R.string.alarm_timed_out, mPrayerName.getText().toString());
     if (AppSettings.getInstance(this).getTimeFormatFor(0) == PrayTime.TIME_24) {
       formatString = "%1$tk:%1$tM " + getString(R.string.alarm_timed_out, mPrayerName.getText().toString());
     }
-    String title = interrupted? getString(R.string.alarm_interrupted) : getString(R.string.alarm_timed_out_only);
-    String body = String.format(formatString, now);
-    if (interrupted) {
+    String title;
+    String body;
+    /*Log.d(Constants.log, "mPrayerName.getText().toString() = "+mPrayerName.getText().toString());
+    if (mPrayerName.getText().toString().equalsIgnoreCase(getString(R.string.fajr))) {
+      title = getString(R.string.sabah);
+      body = getString(R.string.athkar_sabah);
+    }else if (mPrayerName.getText().toString().equalsIgnoreCase(getString(R.string.dhuhr))){
+      title = getString(R.string.werd);
+      body = getString(R.string.werd_quran);
+    }else if (mPrayerName.getText().toString().equalsIgnoreCase(getString(R.string.asr))){
+      title = getString(R.string.athzar);
+      body = getString(R.string.athkar_day);
+    }else if (mPrayerName.getText().toString().equalsIgnoreCase(getString(R.string.maghrib))){
+      title = getString(R.string.masaa);
+      body = getString(R.string.athkar_masaa);
+    }else{*/
+      title = interrupted? getString(R.string.alarm_interrupted) : getString(R.string.alarm_timed_out_only);
+      body = String.format(formatString, now);
+      if (interrupted) {
         body = mPrayerName.getText().toString();
     }
 
@@ -290,13 +307,14 @@ public class RingAlarmActivity extends AppCompatActivity implements Constants, V
         this.getSystemService(Context.NOTIFICATION_SERVICE);
 
     PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, SalaatTimesActivity.class), PendingIntent.FLAG_CANCEL_CURRENT);
-
+    Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "FileDownload")
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_logo_notification)
             .setContentTitle(title)
             .setStyle(new NotificationCompat.BigTextStyle()
                 .bigText(body))
-            .setContentText(body);
+            .setContentText(body)
+            .setSound(uri);
 
     mBuilder.setContentIntent(contentIntent);
     mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());

@@ -3182,6 +3182,11 @@
     <string name="hello_world">مرحبا بالعالم!</string>
 <!--    <string name="action_settings">الإعدادات</string>-->
 
+    <string name="notifi1">notifi1</string>
+    <string name="notifi2">notifi2</string>
+    <string name="notifi3">notifi3</string>
+    <string name="notifi4">notifi4</string>
+
     <!-- Prayer time names -->
     <string name="fajr">الفجر</string>
     <string name="dhuhr">الظهر</string>
@@ -3520,4 +3525,22 @@
     <string name="error">يرجى المحاولة في وقت لاحق</string>
     <string name="firstLevel">المستوى الأول</string>
     <string name="page_number">"رقم الصفحة : "</string>
+    <string name="book_folder_path">/books</string>
+    <string name="showBook">عرض الكتاب</string>
+    <string name="normal_download_pdf_alert">يجب تحميل ملف الكتاب هل انت موافق؟</string>
+    <string name="contactus">إتصل بنا</string>
+    <string name="send">إرسال</string>
+    <string name="subject">الموضوع</string>
+    <string name="message">نص الرسالة</string>
+    <string name="athkar_sabah">تذكير بقراءة أذكار الصباح</string>
+    <string name="sabah">أذكار الصباح</string>
+    <string name="werd">الورد اليومي</string>
+    <string name="werd_quran">تذكير بقراءة الورد اليومي من القران الكريم</string>
+    <string name="athzar">الاذكار</string>
+    <string name="athkar_day">إملأ يومك بالاذكار</string>
+    <string name="masaa">أذكار المساء</string>
+    <string name="athkar_masaa">تذكير بقراءة أذكار المساء</string>
+    <string name="sleep">أذكار النوم</string>
+    <string name="sleep_day">تذكير بقراءة أذكار النوم</string>
+    <string name="search_hint">البحث</string>
 </resources>

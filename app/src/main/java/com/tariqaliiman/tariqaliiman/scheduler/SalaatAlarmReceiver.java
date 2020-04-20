@@ -1,6 +1,7 @@
 package com.tariqaliiman.tariqaliiman.scheduler;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,12 +9,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
+
+import androidx.core.app.NotificationCompat;
 import androidx.legacy.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
 import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.R;
 import com.tariqaliiman.tariqaliiman.RingAlarmActivity;
+import com.tariqaliiman.tariqaliiman.SalaatTimesActivity;
 import com.tariqaliiman.tariqaliiman.utils.AppSettings;
 import com.tariqaliiman.tariqaliiman.utils.PrayTime;
 
@@ -21,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.TimeZone;
 
 /**
@@ -33,6 +38,7 @@ public class SalaatAlarmReceiver extends WakefulBroadcastReceiver implements Con
   private AlarmManager alarmMgr;
   // The pending intent that is triggered when the alarm fires.
   private PendingIntent alarmIntent;
+  private NotificationManager mNotificationManager;
 
   @Override
   public void onReceive(Context context, Intent intent) {
@@ -56,7 +62,7 @@ public class SalaatAlarmReceiver extends WakefulBroadcastReceiver implements Con
     long prayerTime = intent.getLongExtra(EXTRA_PRAYER_TIME, -1);
 
     boolean timePassed = (prayerTime != -1 && Math.abs(System.currentTimeMillis() - prayerTime) > FIVE_MINUTES);
-
+    Log.d(Constants.log+"prayer", "salaat = "+timePassed);
     AppSettings settings = AppSettings.getInstance(context);
     if (settings.isAlarmSetFor(0)) {
       if (!timePassed) {
@@ -68,19 +74,47 @@ public class SalaatAlarmReceiver extends WakefulBroadcastReceiver implements Con
         // END_INCLUDE(alarm_onreceive)
 
         // START THE ALARM ACTIVITY
-        Intent newIntent = new Intent(context, RingAlarmActivity.class);
-        Log.d("SalaatAlarmReceiver", "Alarm Receiver Got " + prayerName);
-        newIntent.putExtra(EXTRA_PRAYER_NAME, prayerName);
-        newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(newIntent);
+        /*assert prayerName != null;
+        if (!prayerName.equalsIgnoreCase(context.getString(R.string.athkar_sabah))&&
+            !prayerName.equalsIgnoreCase(context.getString(R.string.werd_quran))&&
+            !prayerName.equalsIgnoreCase(context.getString(R.string.athkar_day))&&
+            !prayerName.equalsIgnoreCase(context.getString(R.string.athkar_masaa))&&
+            !prayerName.equalsIgnoreCase(context.getString(R.string.sleep_day))) {*/
+          Intent newIntent = new Intent(context, RingAlarmActivity.class);
+          Log.d("SalaatAlarmReceiver", "Alarm Receiver Got " + prayerName);
+          newIntent.putExtra(EXTRA_PRAYER_NAME, prayerName);
+          newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          context.startActivity(newIntent);
+        /*}else{
+          sendNotification(context, prayerName, prayerName);
+        }*/
       }
       //SET THE NEXT ALARM
       setAlarm(context);
     }
   }
 
-  // BEGIN_INCLUDE(set_alarm)
+  private void sendNotification(Context context, String title, String msg) {
+    mNotificationManager = (NotificationManager)
+            context.getSystemService(Context.NOTIFICATION_SERVICE);
 
+    PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+            new Intent(context, SalaatTimesActivity.class), 0);
+
+    NotificationCompat.Builder mBuilder =
+            new NotificationCompat.Builder(context, "FileDownload")
+                    .setSmallIcon(R.drawable.icon_notification)
+                    .setContentTitle(title)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
+                    .setContentText(msg)
+                    .setAutoCancel(true);
+
+    mBuilder.setContentIntent(contentIntent);
+    mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+  }
+
+//   BEGIN_INCLUDE(set_alarm)
+//
   /**
    * Sets a repeating alarm that runs once a day at approximately 8:30 a.m. When the
    * alarm fires, the app broadcasts an Intent to this WakefulBroadcastReceiver.
@@ -114,7 +148,7 @@ public class SalaatAlarmReceiver extends WakefulBroadcastReceiver implements Con
         continue;
       }
 
-      then = getCalendarFromPrayerTime(then, prayerTimes.get(prayer));
+      then = getCalendarFromPrayerTime(then, Objects.requireNonNull(prayerTimes.get(prayer)));
 
       if (then.after(now)) {
         // this is the alarm to set
@@ -130,7 +164,7 @@ public class SalaatAlarmReceiver extends WakefulBroadcastReceiver implements Con
           continue;
         }
 
-        then = getCalendarFromPrayerTime(then, prayerTimes.get(prayer));
+        then = getCalendarFromPrayerTime(then, Objects.requireNonNull(prayerTimes.get(prayer)));
 
         if (then.before(now)) {
           // this is the next day.
@@ -145,7 +179,7 @@ public class SalaatAlarmReceiver extends WakefulBroadcastReceiver implements Con
     if (!nextAlarmFound) {
       return; //something went wrong, abort!
     }
-
+    //todo to set new alarm in day
     nameOfPrayerFound = getPrayerNameFromIndex(context, getPrayerIndexFromName(nameOfPrayerFound));
     intent.putExtra(EXTRA_PRAYER_NAME, nameOfPrayerFound);
     intent.putExtra(EXTRA_PRAYER_TIME, then.getTimeInMillis());

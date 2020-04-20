@@ -53,7 +53,7 @@ public class RamadanAlarmReceiver extends WakefulBroadcastReceiver implements Co
     long prayerTime = intent.getLongExtra(EXTRA_PRAYER_TIME, -1);
 
     boolean timePassed = (prayerTime != -1 && Math.abs(System.currentTimeMillis() - prayerTime) > FIVE_MINUTES);
-
+    Log.d(Constants.log+"prayer", "ramadan = "+timePassed);
     AppSettings settings = AppSettings.getInstance(context);
     if (settings.isAlarmSetFor(0)) {
       if (!timePassed) {

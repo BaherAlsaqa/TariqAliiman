@@ -27,11 +27,14 @@ package com.tariqaliiman.tariqaliiman.utils;
 
 import android.content.Context;
 
+import com.tariqaliiman.tariqaliiman.R;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.TimeZone;
 
 public class PrayTime {
@@ -71,7 +74,7 @@ public class PrayTime {
   public static final int FLOATING = 3; // floating point number
   // Time Names
   private ArrayList<String> timeNames;
-  private String InvalidTime; // The string used for invalid times
+  private static String InvalidTime; // The string used for invalid times
   // --------------------- Technical Settings --------------------
   private int numIterations; // number of iterations needed to compute times
   // ------------------- Calc Method Parameters --------------------
@@ -180,7 +183,7 @@ public class PrayTime {
   }
 
   // range reduce hours to 0..23
-  private double fixhour(double a) {
+  private static double fixhour(double a) {
     a = a - 24.0 * Math.floor(a / 24.0);
     a = a < 0 ? (a + 24) : a;
     return a;
@@ -438,7 +441,7 @@ public class PrayTime {
   }
 
   // convert double hours to 24h format
-  public String floatToTime24(double time) {
+  public static String floatToTime24(double time) {
 
     String result;
 
@@ -747,10 +750,43 @@ public class PrayTime {
     ArrayList<String> prayerNames = prayers.getTimeNames();
     LinkedHashMap<String, String> result = new LinkedHashMap<>();
 
+    /*List<String> notifier1 = new ArrayList<>();
+    notifier1.add(0, context.getString(R.string.athkar_sabah));
+    notifier1.add(1, context.getString(R.string.werd_quran));
+    notifier1.add(2, context.getString(R.string.athkar_day));
+    notifier1.add(3, context.getString(R.string.athkar_masaa));
+    notifier1.add(4, context.getString(R.string.sleep_day));
+
+    List<String> notifier2 = new ArrayList<>();
+    notifier2.add(0,floatToTime24(8));
+    notifier2.add(1,floatToTime24(13));
+    notifier2.add(2,floatToTime24(17));
+    notifier2.add(3,floatToTime24(19.30));
+    notifier2.add(4,floatToTime24(23));*/
+
     for (int i = 0; i < prayerTimes.size(); i++) {
       System.out.println(prayerNames.get(i) + " - " + prayerTimes.get(i));
       result.put(prayerNames.get(i), prayerTimes.get(i));
     }
+
+    /*for (int x=0; x<notifier1.size(); x++){
+      result.put(notifier1.get(x), notifier2.get(x));
+    }*/
+
+    /*Log.d(Constants.log, "mPrayerName.getText().toString() = "+mPrayerName.getText().toString());
+    if (mPrayerName.getText().toString().equalsIgnoreCase(getString(R.string.fajr))) {
+      title = getString(R.string.sabah);
+      body = getString(R.string.athkar_sabah);
+    }else if (mPrayerName.getText().toString().equalsIgnoreCase(getString(R.string.dhuhr))){
+      title = getString(R.string.werd);
+      body = getString(R.string.werd_quran);
+    }else if (mPrayerName.getText().toString().equalsIgnoreCase(getString(R.string.asr))){
+      title = getString(R.string.athzar);
+      body = getString(R.string.athkar_day);
+    }else if (mPrayerName.getText().toString().equalsIgnoreCase(getString(R.string.maghrib))){
+      title = getString(R.string.masaa);
+      body = getString(R.string.athkar_masaa);
+    }else{}*/
 
     return result;
   }

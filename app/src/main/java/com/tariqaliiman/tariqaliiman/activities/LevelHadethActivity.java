@@ -1,16 +1,23 @@
 package com.tariqaliiman.tariqaliiman.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,10 +27,16 @@ import android.widget.Toast;
 
 import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.Contains;
+import com.tariqaliiman.tariqaliiman.Database.AppPreference;
+import com.tariqaliiman.tariqaliiman.Downloader.DownloadService;
 import com.tariqaliiman.tariqaliiman.Models.LevelHadeth.LevelHadeth;
 import com.tariqaliiman.tariqaliiman.Models.LevelHadeth.LevelHadethBody;
 import com.tariqaliiman.tariqaliiman.Models.LevelHadeth.LevelHadethData;
 import com.tariqaliiman.tariqaliiman.R;
+import com.tariqaliiman.tariqaliiman.Utilities.AppConstants;
+import com.tariqaliiman.tariqaliiman.Utilities.QuranConfig;
+import com.tariqaliiman.tariqaliiman.Utilities.QuranValidateSources;
+import com.tariqaliiman.tariqaliiman.Utilities.Settingsss;
 import com.tariqaliiman.tariqaliiman.adapters.MyLevelHadethAdapterPagination;
 import com.tariqaliiman.tariqaliiman.listeners.OnItemClickListener5;
 import com.tariqaliiman.tariqaliiman.listeners.PaginationScrollListener;
@@ -62,9 +75,12 @@ public class LevelHadethActivity extends AppCompatActivity {
     private int TOTAL_PAGES = 2;
     private int currentPage = PAGE_START;
     private View noInternet, emptyData, error;
-    private Integer levelId;
-    private String bookName;
-    
+    private Integer levelId, pageNumber;
+    private String bookName, pdfFile;
+    private static final int REQUEST_WRITE_STORAGE = 112;
+    private SearchView searchView;
+    private String search = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +97,7 @@ public class LevelHadethActivity extends AppCompatActivity {
         noInternet = findViewById(R.id.nointernet);
         emptyData = findViewById(R.id.emptydata);
         error = findViewById(R.id.error);
+        searchView = findViewById(R.id.searchView);
 
         ///////////////TODO pagination settings//////////////
         isLoading = false;
@@ -102,6 +119,7 @@ public class LevelHadethActivity extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(adapter);
 
+        pdfFile = appSharedPreferences.readString(Constants.pdfFile);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -113,14 +131,15 @@ public class LevelHadethActivity extends AppCompatActivity {
                 View v = inflator.inflate(R.layout.titleview, null);
                 ((TextView) v.findViewById(R.id.title1)).setText(bookName);
                 getSupportActionBar().setCustomView(v);
-                loadFirstPage(levelId);
+                loadFirstPage(levelId, "");
             }
         }
 
         swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadFirstPage(levelId);
+                loadFirstPage(levelId, "");
+                search = "";
             }
         });
 
@@ -138,7 +157,7 @@ public class LevelHadethActivity extends AppCompatActivity {
                     public void run() {
                         Log.d(Contains.LOG + "addOnScroll", "addOnScrollListener");
 
-                        loadNextPage(levelId);
+                        loadNextPage(levelId, search);
                     }
                 }, 1000);
             }
@@ -158,15 +177,91 @@ public class LevelHadethActivity extends AppCompatActivity {
                 return isLoading;
             }
         });
-
+        //marshmallow check permission permissions
+        final boolean hasPermission = (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
         adapter.setOnClickListener(new OnItemClickListener5() {
             @Override
             public void onItemClick(LevelHadeth item) {
-//            startActivity(new Intent(FirstLevelActivity.this, BookDetails.class));
-                Toast.makeText(LevelHadethActivity.this, "level hadeth data pdf", Toast.LENGTH_SHORT).show();
+                appSharedPreferences.writeInteger(Constants.pageNumber, item.getPageNoAr());
+                pageNumber = item.getPageNoAr();
+                if (!hasPermission) {
+                    Log.d("baherdb", "(!hasPermission)");
+                    ActivityCompat.requestPermissions(LevelHadethActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            REQUEST_WRITE_STORAGE);
+                } else {
+                    Log.d("baherdb", "(hasPermission)");
+                    validateFilesAndDownload(pageNumber, pdfFile);
+                }
             }
         });
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                loadFirstPage(0, newText);
+                search = newText;
+                return false;
+            }
+        });
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //check if permission had taken or not
+        if (requestCode == REQUEST_WRITE_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //valid to download or not
+                validateFilesAndDownload(pageNumber, pdfFile);
+            } else {
+                Toast.makeText(this, getString(R.string.permission), Toast.LENGTH_LONG).show();
+//                    LevelHadethActivity.this.finish();
+            }
+        }
+    }
+
+    public void validateFilesAndDownload(final int pageNumber, final String pdfFileName) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                //set screen resolution in prefrence
+                QuranConfig.getResolutionURLLink(LevelHadethActivity.this);
+                Log.d(Constants.log+"pdf", "pdfFileName.split = "+pdfFileName.split("/")[1]);
+                //check if files is valid
+                if (!QuranValidateSources.validatPDFFoldersAndFiles(LevelHadethActivity.this,
+                        pdfFileName.split("/")[1]) ||
+                        (Settingsss.isMyServiceRunning(LevelHadethActivity.this, DownloadService.class)
+                                && AppPreference.getDownloadType() == AppConstants.Preferences.PDFS)) {
+                    Log.d(Constants.log+"download", "Validate PDF Folders And Files");
+                    //set default preference font int web_view to the meduim font
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LevelHadethActivity.this);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("size" , "large");
+                    editor.apply();
+                    Intent downloadActivity = new Intent(LevelHadethActivity.this, DownloadPDFDataActivity.class);
+                    startActivity(downloadActivity);
+//                    LevelHadethActivity.this.finish();
+
+                } else {
+                    Log.d(Constants.log+"download", "Not Validate App Main Folders And Files");
+//                    loadMainApplicationData();
+
+                    startActivity(new Intent(LevelHadethActivity.this, BookPDFFile.class)
+                            .putExtra(Constants.pageNumber, pageNumber)
+                            .putExtra(Constants.pdfFile, pdfFileName));
+                }
+
+            }
+        }).start();
     }
 
     private ArrayList<LevelHadeth> fetchResults(Response<LevelHadethBody> response) {
@@ -176,7 +271,7 @@ public class LevelHadethActivity extends AppCompatActivity {
         return itemsObject.getData();
     }
 
-    public void loadFirstPage(int levelId) {
+    public void loadFirstPage(int levelId, String search) {
         Log.d(Constants.log, "loadFirstPage()");
         ///////////////TODO pagination settings//////////////
         isLoading = false;
@@ -194,7 +289,7 @@ public class LevelHadethActivity extends AppCompatActivity {
             progress.setVisibility(View.GONE);
         }
 
-        callTopRatedMoviesApi(levelId).enqueue(new Callback<LevelHadethBody>() {
+        callTopRatedMoviesApi(levelId, search).enqueue(new Callback<LevelHadethBody>() {
             @Override
             public void onResponse(@NotNull Call<LevelHadethBody> call, @NotNull Response<LevelHadethBody> response) {
                 Log.d(Constants.log, "on response = " + response.message() + " | " + response.code());
@@ -254,11 +349,11 @@ public class LevelHadethActivity extends AppCompatActivity {
         });
     }
 
-    public void loadNextPage(int levelId) {
+    public void loadNextPage(int levelId, String search) {
 
         Log.d(Contains.LOG + "loadNextPage", "loadNextPage: " + currentPage);
 
-        callTopRatedMoviesApi(levelId).enqueue(new Callback<LevelHadethBody>() {
+        callTopRatedMoviesApi(levelId, search).enqueue(new Callback<LevelHadethBody>() {
             @Override
             public void onResponse(@NotNull Call<LevelHadethBody> call, @NotNull Response<LevelHadethBody> response) {
 
@@ -304,11 +399,15 @@ public class LevelHadethActivity extends AppCompatActivity {
         });
     }
 
-    private Call<LevelHadethBody> callTopRatedMoviesApi(int levelId) {
+    private Call<LevelHadethBody> callTopRatedMoviesApi(int levelId, String search) {
         Log.d(Constants.log, "book id call = " + levelId);
         APIInterface apiInterface = ServiceGenerator.createService(APIInterface.class,
                 getString(R.string.username), getString(R.string.password));
-        return call = apiInterface.getLevelHadiths(levelId, currentPage);
+        if (search.equals("")||search.length() <= 0)
+            call = apiInterface.getLevelHadiths(levelId, currentPage);
+        else
+            call = apiInterface.searchHadeth(search, currentPage);
+        return call;
     }
 
     @Override

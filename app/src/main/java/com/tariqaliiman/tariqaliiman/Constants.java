@@ -35,6 +35,7 @@ public interface Constants {
     String athkar_id = "ATHKAR_ID";
     String baseURL = "https://albseet.com/books/public/api/";
     String imageURL = "https://albseet.com/books/public/";
+    String pdfURL = "https://albseet.com/books/public/";
     String item = "ITEM";
     String bimage = "BOOKIMAGE";
     String btitle = "BOOKTITLE";
@@ -44,4 +45,6 @@ public interface Constants {
     String bookId = "BOOKID";
     String bookName = "BOOKNAME";
     String levelId = "LEVELID";
+    String pageNumber = "PAGE_NUMBER";
+    String pdfFile = "PDF_FILE";
 }

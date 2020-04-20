@@ -32,7 +32,7 @@ public class Book {
     private Object descriptionEn;
     @SerializedName("pdf_ar")
     @Expose
-    private Object pdfAr;
+    private String pdfAr;
     @SerializedName("pdf_en")
     @Expose
     private Object pdfEn;
@@ -110,11 +110,11 @@ public class Book {
         this.descriptionEn = descriptionEn;
     }
 
-    public Object getPdfAr() {
+    public String getPdfAr() {
         return pdfAr;
     }
 
-    public void setPdfAr(Object pdfAr) {
+    public void setPdfAr(String pdfAr) {
         this.pdfAr = pdfAr;
     }
 

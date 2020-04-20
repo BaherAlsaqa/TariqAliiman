@@ -16,7 +16,42 @@ import java.util.List;
  */
 public class QuranValidateSources {
 
+    public static boolean validatPDFFoldersAndFiles(Context context, String pdfFileName) {
+        boolean foundPDFFiles = true;
 
+        File mainpdf = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                context.getString(R.string.app_folder_path) +
+                context.getString(R.string.book_folder_path));
+
+        File mainpdfFileName = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                context.getString(R.string.app_folder_path) +
+                context.getString(R.string.book_folder_path) +
+                "/"+pdfFileName);
+
+        try {
+            if (!mainpdf.exists()) {
+                mainpdf.mkdirs();
+                return false;
+            }
+            if (!mainpdfFileName.exists()) {
+                mainpdf.mkdirs();
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /*File[] files = mainpdf.listFiles();
+        assert files != null;
+        for (File file : files) {
+            if (file.getName().contains(pdfFileName)) {
+                if (!(file.getName().contains(".pdf"))) foundPDFFiles = true;
+                break;
+            }
+        }*/
+
+        return foundPDFFiles;
+    }
     /**
      * Fuction to validate app main folder exists
      *

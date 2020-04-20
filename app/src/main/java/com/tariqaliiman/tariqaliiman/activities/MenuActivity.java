@@ -63,7 +63,7 @@ import static com.tariqaliiman.tariqaliiman.Constants.REQUEST_TNC;
 
 public class MenuActivity extends AppCompatActivity {
 
-    private Button muslim, sereen, quran, settings, prayerTimings, book;
+    private Button muslim, sereen, quran, settings, prayerTimings, book, contactUs;
     private String hours, minutes;
     private AppSharedPreferences appSharedPreferences;
     private int x = 0;
@@ -93,6 +93,8 @@ public class MenuActivity extends AppCompatActivity {
         settings = findViewById(R.id.settings);
         prayerTimings = findViewById(R.id.prayertimings);
         book = findViewById(R.id.books);
+        contactUs = findViewById(R.id.contactus);
+
         LayoutInflater inflator = LayoutInflater.from(this);
         View v = inflator.inflate(R.layout.titleview, null);
         ((TextView) v.findViewById(R.id.title1)).setText(this.getTitle());
@@ -210,6 +212,13 @@ public class MenuActivity extends AppCompatActivity {
         }else{
             Log.d(Contains.log+"notifi", "Notification false");
         }
+
+        contactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MenuActivity.this, SendEmailContactUs.class));
+            }
+        });
 
         prayerTimings.setOnClickListener(new View.OnClickListener() {
             @Override

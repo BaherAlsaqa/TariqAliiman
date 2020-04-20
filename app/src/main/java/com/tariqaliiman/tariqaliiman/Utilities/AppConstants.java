@@ -104,7 +104,8 @@ public interface AppConstants {
                 DOWNLOAD_SUCCESS = 200,
         //download types
         TAFSEER = 1,
-                IMAGES = 2;
+                IMAGES = 2,
+                PDFS = 3;
 
         //shared preference keys
         String CONFIG = "configurations",

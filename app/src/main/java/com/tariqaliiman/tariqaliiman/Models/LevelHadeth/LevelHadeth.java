@@ -35,7 +35,7 @@ public class LevelHadeth {
     private Object pageNoEn;
     @SerializedName("pdf_ar")
     @Expose
-    private Object pdfAr;
+    private String pdfAr;
     @SerializedName("pdf_en")
     @Expose
     private Object pdfEn;
@@ -121,11 +121,11 @@ public class LevelHadeth {
         this.pageNoEn = pageNoEn;
     }
 
-    public Object getPdfAr() {
+    public String getPdfAr() {
         return pdfAr;
     }
 
-    public void setPdfAr(Object pdfAr) {
+    public void setPdfAr(String pdfAr) {
         this.pdfAr = pdfAr;
     }
 

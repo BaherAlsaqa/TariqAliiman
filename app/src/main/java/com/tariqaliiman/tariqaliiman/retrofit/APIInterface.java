@@ -5,8 +5,10 @@ import com.tariqaliiman.tariqaliiman.Models.LevelHadeth.LevelHadethBody;
 import com.tariqaliiman.tariqaliiman.Models.books.BooksBody;
 
 import retrofit2.Call;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -31,13 +33,15 @@ public interface APIInterface {
     Call<LevelHadethBody> getLevelHadiths(@Path("level_id") int levelId,
                                           @Query("page") int nextPage);
 
-    //TODO //////////////POST///////////////////////////////////////////////////////////////////
+    @GET("search/books")
+    Call<BooksBody> searchBooks(@Query("name") String name,
+                                @Query("page") int nextPage);
 
-    /*@FormUrlEncoded
-    @POST("users/user")
-    Call<UserResp> createUser(@Header("API-KEY") String apiKey,
-                              @Header("API-USERNAME") String apiUsername,
-                              @Header("API-PASSWORD") String apiPassword,
-                              @Header("Content-Type") String contentType,
-                              @Field("token") String token);*/
+    @GET("search/levels")
+    Call<FirstLevelBody> searchLevels(@Query("name") String name,
+                                 @Query("page") int nextPage);
+
+    @GET("search/hadiths")
+    Call<LevelHadethBody> searchHadeth(@Query("name") String name,
+                                 @Query("page") int nextPage);
 }

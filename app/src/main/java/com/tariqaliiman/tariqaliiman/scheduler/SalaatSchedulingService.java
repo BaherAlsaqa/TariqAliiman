@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+
 import androidx.core.app.NotificationCompat;
 
 
@@ -45,7 +47,7 @@ public class SalaatSchedulingService extends IntentService implements Constants 
 
     Calendar now = Calendar.getInstance(TimeZone.getDefault());
     now.setTimeInMillis(System.currentTimeMillis());
-
+    Log.d(Constants.log+"prayer", "salaat schaduling = "+now.toString());
     String formatString = "%2$tl:%2$tM %2$tp %1$s";
     if (AppSettings.getInstance(this).getTimeFormatFor(0) == PrayTime.TIME_24) {
       formatString = "%2$tk:%2$tM %1$s";

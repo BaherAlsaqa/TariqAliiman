@@ -1,6 +1,7 @@
 package com.tariqaliiman.tariqaliiman.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,6 +67,8 @@ public class BooksActivity extends AppCompatActivity {
     private int TOTAL_PAGES = 2;
     private int currentPage = PAGE_START;
     private View noInternet, emptyData, error;
+    private androidx.appcompat.widget.SearchView searchView;
+    String search = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,16 +83,16 @@ public class BooksActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerview);
         swiperefresh = findViewById(R.id.swiperefresh);
         progress = findViewById(R.id.progress);
+        searchView = findViewById(R.id.searchView);
+        noInternet = findViewById(R.id.nointernet);
+        emptyData = findViewById(R.id.emptydata);
+        error = findViewById(R.id.error);
 
         ///////////////TODO pagination settings//////////////
         isLoading = false;
         isLastPage = false;
         currentPage = PAGE_START;
         ////////////////////////////
-
-        noInternet = findViewById(R.id.nointernet);
-        emptyData = findViewById(R.id.emptydata);
-        error = findViewById(R.id.error);
 
         LayoutInflater inflator = LayoutInflater.from(this);
         View v = inflator.inflate(R.layout.titleview, null);
@@ -110,12 +113,13 @@ public class BooksActivity extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(adapter);
 
-        loadFirstPage();
+        loadFirstPage("");
 
         swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadFirstPage();
+                loadFirstPage("");
+                search = "";
             }
         });
 
@@ -133,7 +137,7 @@ public class BooksActivity extends AppCompatActivity {
                     public void run() {
                         Log.d(Contains.LOG + "addOnScroll", "addOnScrollListener");
 
-                        loadNextPage();
+                        loadNextPage(search);
                     }
                 }, 1000);
             }
@@ -158,6 +162,8 @@ public class BooksActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Book item) {
                 Log.d(Constants.log+"id", "book id = "+item.getId());
+                appSharedPreferences.writeString(Constants.pdfFile, item.getPdfAr());
+                appSharedPreferences.writeString(Constants.bookName, item.getNameAr());
             startActivity(new Intent(BooksActivity.this, FirstLevelActivity.class)
             .putExtra(Constants.bookId, item.getId())
             .putExtra(Constants.bookName, item.getNameAr()));
@@ -175,6 +181,19 @@ public class BooksActivity extends AppCompatActivity {
             }
         });
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                loadFirstPage(newText);
+                return false;
+            }
+        });
+
     }
 
     private ArrayList<Book> fetchResults(Response<BooksBody> response) {
@@ -184,7 +203,7 @@ public class BooksActivity extends AppCompatActivity {
         return homeItemsObject.getData();
     }
 
-    public void loadFirstPage() {
+    public void loadFirstPage(String search) {
         Log.d(Constants.log, "loadFirstPage()");
         ///////////////TODO pagination settings//////////////
         isLoading = false;
@@ -202,7 +221,7 @@ public class BooksActivity extends AppCompatActivity {
             progress.setVisibility(View.GONE);
         }
 
-        callTopRatedMoviesApi().enqueue(new Callback<BooksBody>() {
+        callTopRatedMoviesApi(search).enqueue(new Callback<BooksBody>() {
             @Override
             public void onResponse(@NotNull Call<BooksBody> call, @NotNull Response<BooksBody> response) {
                 Log.d(Constants.log, "on response = " + response.message() + " | " + response.code());
@@ -256,11 +275,11 @@ public class BooksActivity extends AppCompatActivity {
         });
     }
 
-    public void loadNextPage() {
+    public void loadNextPage(String search) {
 
         Log.d(Contains.LOG + "loadNextPage", "loadNextPage: " + currentPage);
 
-        callTopRatedMoviesApi().enqueue(new Callback<BooksBody>() {
+        callTopRatedMoviesApi(search).enqueue(new Callback<BooksBody>() {
             @Override
             public void onResponse(@NotNull Call<BooksBody> call, @NotNull Response<BooksBody> response) {
 
@@ -302,9 +321,14 @@ public class BooksActivity extends AppCompatActivity {
         });
     }
 
-    private Call<BooksBody> callTopRatedMoviesApi() {
-        APIInterface apiInterface = ServiceGenerator.createService(APIInterface.class, "book", "book123456");
-        return call = apiInterface.getAllBooks(currentPage);
+    private Call<BooksBody> callTopRatedMoviesApi(String search) {
+        APIInterface apiInterface = ServiceGenerator.createService(APIInterface.class,
+                getString(R.string.username), getString(R.string.password));
+        if(search.equals("")||search.length() <= 0)
+            call = apiInterface.getAllBooks(currentPage);
+        else
+            call = apiInterface.searchBooks(search, currentPage);
+        return call;
     }
 
     @Override

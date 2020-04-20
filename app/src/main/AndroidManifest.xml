@@ -29,14 +29,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.LevelHadethActivity"
-            android:hardwareAccelerated="true"
+        <activity android:name=".activities.SendEmailContactUs"
             android:screenOrientation="nosensor"
             android:theme="@style/AppTheme1"/>
-        <activity android:name=".activities.SubLevelActivity"
+        <activity
+            android:name=".activities.LevelHadethActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="nosensor"
-            android:theme="@style/AppTheme1"/>
+            android:theme="@style/AppTheme1" />
+        <activity
+            android:name=".activities.SubLevelActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="nosensor"
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".activities.FirstLevelActivity"
             android:hardwareAccelerated="true"
@@ -81,10 +86,10 @@
             android:screenOrientation="nosensor"
             android:theme="@style/AppTheme1" />
         <activity
-            android:name=".activities.QuranKareem"
-            android:hardwareAccelerated="false"
+            android:name=".activities.BookPDFFile"
+            android:hardwareAccelerated="true"
             android:label="@string/quran"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="nosensor"
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".activities.MuslimsDetails"
@@ -213,7 +218,14 @@
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false"
             android:label="@string/title_activity_activity_home"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="nosensor"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.DownloadPDFDataActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="false"
+            android:label="@string/title_activity_activity_home"
+            android:screenOrientation="nosensor"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.QuranPageReadActivity"

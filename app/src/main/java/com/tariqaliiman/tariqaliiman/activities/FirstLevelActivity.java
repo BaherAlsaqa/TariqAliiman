@@ -1,6 +1,7 @@
 package com.tariqaliiman.tariqaliiman.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -64,6 +65,8 @@ public class FirstLevelActivity extends AppCompatActivity {
     private View noInternet, emptyData, error;
     private Integer bookId;
     private String bookName;
+    private SearchView searchView;
+    private String search = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,7 @@ public class FirstLevelActivity extends AppCompatActivity {
         noInternet = findViewById(R.id.nointernet);
         emptyData = findViewById(R.id.emptydata);
         error = findViewById(R.id.error);
+        searchView = findViewById(R.id.searchView);
 
         ///////////////TODO pagination settings//////////////
         isLoading = false;
@@ -113,14 +117,15 @@ public class FirstLevelActivity extends AppCompatActivity {
                 View v = inflator.inflate(R.layout.titleview, null);
                 ((TextView) v.findViewById(R.id.title1)).setText(bookName);
                 getSupportActionBar().setCustomView(v);
-                loadFirstPage(bookId);
+                loadFirstPage(bookId, "");
             }
         }
 
         swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadFirstPage(bookId);
+                loadFirstPage(bookId, "");
+                search = "";
             }
         });
 
@@ -138,7 +143,7 @@ public class FirstLevelActivity extends AppCompatActivity {
                     public void run() {
                         Log.d(Contains.LOG + "addOnScroll", "addOnScrollListener");
 
-                        loadNextPage(bookId);
+                        loadNextPage(bookId, search);
                     }
                 }, 1000);
             }
@@ -174,6 +179,19 @@ public class FirstLevelActivity extends AppCompatActivity {
             }
         });
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                loadFirstPage(0, newText);
+                return false;
+            }
+        });
+
     }
 
     private ArrayList<FirstLevel> fetchResults(Response<FirstLevelBody> response) {
@@ -183,7 +201,7 @@ public class FirstLevelActivity extends AppCompatActivity {
         return itemsObject.getData();
     }
 
-    public void loadFirstPage(int bookId) {
+    public void loadFirstPage(int bookId, String search) {
         Log.d(Constants.log, "loadFirstPage()");
         ///////////////TODO pagination settings//////////////
         isLoading = false;
@@ -201,7 +219,7 @@ public class FirstLevelActivity extends AppCompatActivity {
             progress.setVisibility(View.GONE);
         }
 
-        callTopRatedMoviesApi(bookId).enqueue(new Callback<FirstLevelBody>() {
+        callTopRatedMoviesApi(bookId, search).enqueue(new Callback<FirstLevelBody>() {
             @Override
             public void onResponse(@NotNull Call<FirstLevelBody> call, @NotNull Response<FirstLevelBody> response) {
                 Log.d(Constants.log, "on response = " + response.message() + " | " + response.code());
@@ -261,11 +279,11 @@ public class FirstLevelActivity extends AppCompatActivity {
         });
     }
 
-    public void loadNextPage(int bookId) {
+    public void loadNextPage(int bookId,  String search) {
 
         Log.d(Contains.LOG + "loadNextPage", "loadNextPage: " + currentPage);
 
-        callTopRatedMoviesApi(bookId).enqueue(new Callback<FirstLevelBody>() {
+        callTopRatedMoviesApi(bookId, search).enqueue(new Callback<FirstLevelBody>() {
             @Override
             public void onResponse(@NotNull Call<FirstLevelBody> call, @NotNull Response<FirstLevelBody> response) {
 
@@ -311,10 +329,14 @@ public class FirstLevelActivity extends AppCompatActivity {
         });
     }
 
-    private Call<FirstLevelBody> callTopRatedMoviesApi(int bookId) {
+    private Call<FirstLevelBody> callTopRatedMoviesApi(int bookId, String search) {
         Log.d(Constants.log, "book id call = " + bookId);
         APIInterface apiInterface = ServiceGenerator.createService(APIInterface.class, "book", "book123456");
-        return call = apiInterface.getFirstLevel(bookId, currentPage);
+        if (search.equals("")||search.length() <= 0)
+            call = apiInterface.getFirstLevel(bookId, currentPage);
+        else
+            call = apiInterface.searchLevels(search, currentPage);
+        return call;
     }
 
     @Override
