@@ -16,11 +16,16 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.Contains;
 import com.tariqaliiman.tariqaliiman.Models.books.Book;
@@ -41,6 +46,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -67,7 +73,6 @@ public class BooksActivity extends AppCompatActivity {
     private int TOTAL_PAGES = 2;
     private int currentPage = PAGE_START;
     private View noInternet, emptyData, error;
-    private androidx.appcompat.widget.SearchView searchView;
     String search = "";
 
     @Override
@@ -83,7 +88,6 @@ public class BooksActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerview);
         swiperefresh = findViewById(R.id.swiperefresh);
         progress = findViewById(R.id.progress);
-        searchView = findViewById(R.id.searchView);
         noInternet = findViewById(R.id.nointernet);
         emptyData = findViewById(R.id.emptydata);
         error = findViewById(R.id.error);
@@ -178,19 +182,6 @@ public class BooksActivity extends AppCompatActivity {
                         .putExtra(Constants.btitle, item.getNameAr())
                         .putExtra(Constants.bauther, item.getAuthorAr())
                         .putExtra(Constants.bdescription, item.getDescriptionAr()));
-            }
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                loadFirstPage(newText);
-                return false;
             }
         });
 
@@ -332,10 +323,41 @@ public class BooksActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
 
-        onBackPressed();
+        MenuItem searchItem = menu.findItem(R.id.searchitem);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint(getString(R.string.search_hear));
+        searchView.setIconifiedByDefault(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (s.length() > 0) {
+                    loadFirstPage(s);
+                    search = s;
+                }else{
+                    loadFirstPage(s);
+                }
+                return false;
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.searchitem:
+                break;
+            default: onBackPressed();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

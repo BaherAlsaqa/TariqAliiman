@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.tariqaliiman.tariqaliiman">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -29,6 +28,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <receiver
+            android:name=".scheduler.Restarter"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="restartservice" />
+            </intent-filter>
+        </receiver>
         <activity android:name=".activities.SendEmailContactUs"
             android:screenOrientation="nosensor"
             android:theme="@style/AppTheme1"/>
@@ -183,7 +190,7 @@
 
         <service
             android:name=".scheduler.SalaatSchedulingService"
-            android:hardwareAccelerated="false" />
+            android:hardwareAccelerated="true" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -196,16 +203,16 @@
             android:name=".Downloader.DownloadService"
             android:enabled="true"
             android:exported="false"
-            android:hardwareAccelerated="false" />
+            android:hardwareAccelerated="true" />
         <service
             android:name=".Downloader.DownloadTafseerService"
             android:enabled="true"
             android:exported="false"
-            android:hardwareAccelerated="false" />
+            android:hardwareAccelerated="true" />
         <service
             android:name=".Utilities.CloseApplication"
             android:exported="true"
-            android:hardwareAccelerated="false"
+            android:hardwareAccelerated="true"
             android:process=":ServiceProcess" />
 
         <activity

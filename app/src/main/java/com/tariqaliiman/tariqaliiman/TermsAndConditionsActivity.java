@@ -26,7 +26,7 @@ public class TermsAndConditionsActivity extends AppCompatActivity {
     private AppBarLayout appbar;
     private Toolbar toolbar;
     private WebView webView;
-    private String url = "http://privacypolicy.foryou.ps/privacy_policy.html";
+    private String url = "https://albseet.com/privacypolicy/privacy_policy.html";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

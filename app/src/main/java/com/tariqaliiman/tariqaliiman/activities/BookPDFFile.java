@@ -1,8 +1,12 @@
 package com.tariqaliiman.tariqaliiman.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -10,6 +14,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
@@ -27,8 +36,14 @@ import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import com.shockwave.pdfium.PdfDocument;
 import com.tariqaliiman.tariqaliiman.utils.AppSharedPreferences;
+import com.wang.avi.AVLoadingIndicatorView;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 public class BookPDFFile extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener, OnPageErrorListener {
@@ -41,6 +56,8 @@ public class BookPDFFile extends AppCompatActivity implements OnPageChangeListen
     private AppSharedPreferences appSharedPreferences;
     private int x = 0;
     String bookName;
+    private AVLoadingIndicatorView progress;
+//    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +65,8 @@ public class BookPDFFile extends AppCompatActivity implements OnPageChangeListen
         setContentView(R.layout.activity_quran_kareem);
 
         pdfView = findViewById(R.id.pdfView);
+        progress = findViewById(R.id.progress);
+//        webView = findViewById(R.id.webview);
 
         appSharedPreferences = new AppSharedPreferences(getApplicationContext());
 
@@ -76,26 +95,52 @@ public class BookPDFFile extends AppCompatActivity implements OnPageChangeListen
                 getString(R.string.book_folder_path) +
                 "/"+pdfFileName.split("/")[1]);
 
-        pdfView.fromFile(pdfFile)
-                .enableSwipe(true) // allows to block changing pages using swipe
-                .swipeHorizontal(true)
-                .defaultPage(pageNumber)
-                .enableAnnotationRendering(false) // render annotations (such as comments, colors or forms)
-                .password(null)
-                .scrollHandle(null)
-                .enableAntialiasing(true)
-                .spacing(5)
-                .autoSpacing(false)
-                .pageFitPolicy(FitPolicy.WIDTH)
-                .pageSnap(true) // snap pages to screen boundaries
-                .pageFling(false) // make a fling change only a single page like ViewPager
-                .nightMode(false) // toggle night mode
-                .onPageChange(this)
-                .enableAnnotationRendering(true)
-                .onLoad(this)
-                .scrollHandle(new DefaultScrollHandle(this))
-                .onPageError(this)
-                .load();
+        try {
+            progress.setVisibility(View.VISIBLE);
+            Log.d(Constants.log+"pdf", "pdf url = "+Constants.pdfURL+pdfFileName);
+            new RetrievePdfStream().execute(Constants.pdfURL+pdfFileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(Constants.log+"pdf", "pdf url catch = "+Constants.pdfURL+pdfFileName);
+        }
+        /*Log.d(Constants.log, "URL = "+Constants.pdfURL+pdfFileName);
+        progressBar.setVisibility(View.VISIBLE);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(Constants.pdfURL+pdfFileName);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                Log.d(Constants.log+"web", "shouldOverrideUrlLoading = "+url);
+                return true;
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Log.d(Constants.log+"web", "shouldOverrideUrlLoading = "+request.toString());
+                return super.shouldOverrideUrlLoading(view, request);
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                Log.d(Constants.log+"web", "onReceivedError = "+error.getErrorCode());
+                Log.d(Constants.log+"web", "onReceivedError description = "+error.getDescription());
+                Log.d(Constants.log+"web", "Error = "+error.toString());
+                super.onReceivedError(view, request, error);
+            }
+
+            public void onPageFinished(WebView view, String url){
+                // do your stuff here
+                Log.d(Constants.log+"web", "onPageFinished");
+                progressBar.setVisibility(View.GONE);
+            }
+        });*/
 
         // View Ads
         AdView adView = new AdView(this);
@@ -177,6 +222,54 @@ public class BookPDFFile extends AppCompatActivity implements OnPageChangeListen
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    class RetrievePdfStream extends AsyncTask<String, Void, InputStream> {
+        @Override
+        protected InputStream doInBackground(String... strings) {
+            InputStream inputStream = null;
+            Log.d(Constants.log+"pdf", "doInBackground");
+            try {
+                Log.d(Constants.log+"pdf", "doInBackground >> try");
+                URL url = new URL(strings[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                if (urlConnection.getResponseCode() == 200) {
+                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                    Log.d(Constants.log+"pdf", "doInBackground >> 200 = "+urlConnection.getResponseCode());
+                }else{
+                    Log.d(Constants.log+"pdf", "doInBackground >> != 200 = "+urlConnection.getResponseCode());
+                }
+            } catch (IOException e) {
+                Log.d(Constants.log+"pdf", "doInBackground catch");
+                return null;
+            }
+            return inputStream;
+        }
+        @Override
+        protected void onPostExecute(InputStream inputStream) {
+            Log.d(Constants.log+"pdf", "onPostExecute = "+inputStream.toString());
+            pdfView.fromStream(inputStream)
+                    .enableSwipe(true) // allows to block changing pages using swipe
+                    .swipeHorizontal(true)
+                    .defaultPage(pageNumber)
+                    .enableAnnotationRendering(false) // render annotations (such as comments, colors or forms)
+                    .password(null)
+                    .scrollHandle(null)
+                    .enableAntialiasing(true)
+                    .spacing(5)
+                    .autoSpacing(false)
+                    .pageFitPolicy(FitPolicy.WIDTH)
+                    .pageSnap(true) // snap pages to screen boundaries
+                    .pageFling(false) // make a fling change only a single page like ViewPager
+                    .nightMode(false) // toggle night mode
+                    .onPageChange(BookPDFFile.this)
+                    .enableAnnotationRendering(true)
+                    .onLoad(BookPDFFile.this)
+                    .scrollHandle(new DefaultScrollHandle(BookPDFFile.this))
+                    .onPageError(BookPDFFile.this)
+                    .load();
+            progress.setVisibility(View.GONE);
+        }
     }
 
 }

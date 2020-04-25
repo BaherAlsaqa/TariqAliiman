@@ -78,6 +78,8 @@ public class QuranValidateSources {
         File database = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
                 context.getResources().getString(R.string.app_folder_path) + "/" + "quran.sqlite");
 
+
+
         try {
             if (!main.exists()) {
                 main.mkdirs();

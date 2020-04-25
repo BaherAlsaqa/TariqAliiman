@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.Database.AppPreference;
 import com.tariqaliiman.tariqaliiman.Utilities.AppConstants;
+import com.tariqaliiman.tariqaliiman.scheduler.Restarter;
+import com.tariqaliiman.tariqaliiman.utils.AppSharedPreferences;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ import java.util.List;
  */
 public class DownloadService extends Service {
     private DownloadManager downloadManager ;
-
+    AppSharedPreferences appSharedPreferences;
 
     @Nullable
     @Override
@@ -38,6 +40,7 @@ public class DownloadService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        appSharedPreferences = new AppSharedPreferences(getBaseContext());
         AppPreference.Downloading(true);
         Bundle extras = intent.getExtras();
         String downloadURL = extras.getString(AppConstants.Download.DOWNLOAD_URL);
@@ -55,7 +58,7 @@ public class DownloadService extends Service {
                 downloadManager.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "", downloadLocation);
         }
 
-        return START_NOT_STICKY;
+        return START_STICKY;//change from START_NOT_STICKY to START_STICKY to continue downlaod
     }
 
     /**
@@ -64,10 +67,16 @@ public class DownloadService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (downloadManager != null) {
+        Log.i("Broadcast Listened", "onDestroy >> Service tried to stop");
+        /*if (downloadManager != null) {
             downloadManager.stopDownload = true;
         }
-        AppPreference.Downloading(false);
+        AppPreference.Downloading(false);*/
+        appSharedPreferences.writeBoolean("download_on_destroy", false);
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction("restartservice");
+        broadcastIntent.setClass(DownloadService.this, Restarter.class);
+        this.sendBroadcast(broadcastIntent);
     }
 
 

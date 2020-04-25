@@ -3,6 +3,5 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">albseet.com</domain>
         <domain includeSubdomains="true">mirrors.quranicaudio.com</domain>
-        <domain includeSubdomains="true">foryou.ps</domain>
     </domain-config>
 </network-security-config>

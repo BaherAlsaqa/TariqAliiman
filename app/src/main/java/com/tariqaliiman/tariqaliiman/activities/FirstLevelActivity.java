@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -65,7 +66,6 @@ public class FirstLevelActivity extends AppCompatActivity {
     private View noInternet, emptyData, error;
     private Integer bookId;
     private String bookName;
-    private SearchView searchView;
     private String search = "";
 
     @Override
@@ -84,7 +84,6 @@ public class FirstLevelActivity extends AppCompatActivity {
         noInternet = findViewById(R.id.nointernet);
         emptyData = findViewById(R.id.emptydata);
         error = findViewById(R.id.error);
-        searchView = findViewById(R.id.searchView);
 
         ///////////////TODO pagination settings//////////////
         isLoading = false;
@@ -176,19 +175,6 @@ public class FirstLevelActivity extends AppCompatActivity {
                 .putExtra(Constants.levelId, item.getId())
                 .putExtra(Constants.bookName, item.getTitleAr()));
             }
-            }
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                loadFirstPage(0, newText);
-                return false;
             }
         });
 
@@ -340,10 +326,41 @@ public class FirstLevelActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
 
-        onBackPressed();
+        MenuItem searchItem = menu.findItem(R.id.searchitem);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint(getString(R.string.search_hear));
+        searchView.setIconifiedByDefault(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (s.length() > 0) {
+                    loadFirstPage(0, s);
+                    search = s;
+                }else{
+                    loadFirstPage(bookId, s);
+                }
+                return false;
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.searchitem:
+                break;
+            default: onBackPressed();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

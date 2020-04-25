@@ -29,10 +29,12 @@ import com.tariqaliiman.tariqaliiman.Utilities.AppConstants;
 import com.tariqaliiman.tariqaliiman.Utilities.FileManager;
 import com.tariqaliiman.tariqaliiman.Utilities.QuranConfig;
 import com.tariqaliiman.tariqaliiman.Utilities.Settingsss;
+import com.tariqaliiman.tariqaliiman.utils.AppSharedPreferences;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -71,7 +73,7 @@ public class QuranDataActivity extends Activity {
      * Init Quran data activity
      */
     private void init() {
-
+        Log.i("Broadcast", "init init init");
         downloadProgress = (ProgressBar) findViewById(R.id.progressBar);
         downloadInformation = (TextView) findViewById(R.id.textView);
         StartQuran = (Button) findViewById(R.id.button);
@@ -91,12 +93,29 @@ public class QuranDataActivity extends Activity {
         File mainDatabase = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
                 getString(R.string.app_folder_path) + "/quran.sqlite");
 
+        /*File nomedia = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                "/" + getResources().getString(R.string.app_folder_path) + "/quranpages_" +
+                AppPreference.getScreenResolution() + "/images"+ "/.nomedia");
+        if (!nomedia.exists()) {
+            nomedia.mkdirs();
+        }*/
+
+        try {
+            FileWriter f = new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() +
+                    "/" + getResources().getString(R.string.app_folder_path) + "/quranpages_" +
+                    AppPreference.getScreenResolution() + "/images"+ "/.nomedia");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         if (!mainDatabase.exists()) {
             Log.d(Constants.log+"download", "main database is exist");
+            Log.i("Broadcast", "main database is exist");
             //copy database
             new CopyDatabase().execute();
         } else {
             Log.d(Constants.log+"download", "main database is not exist, now must download database");
+            Log.i("Broadcast", "main database is not exist, now must download database");
             downloadDialog();
         }
     }
@@ -106,7 +125,9 @@ public class QuranDataActivity extends Activity {
      */
     private void downloadDialog() {
         int internetStatus = Settingsss.checkInternetStatus(this);
-        if (!Settingsss.isMyServiceRunning(QuranDataActivity.this, DownloadService.class)) {
+        AppSharedPreferences appSharedPreferences = new AppSharedPreferences(getBaseContext());
+        boolean downloadOnDestroy = appSharedPreferences.readBoolean("download_on_destroy");
+        if (!Settingsss.isMyServiceRunning(QuranDataActivity.this, DownloadService.class) && downloadOnDestroy) {
             if (internetStatus > 0) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
@@ -124,7 +145,7 @@ public class QuranDataActivity extends Activity {
                 }
                 );
                 builder.setNegativeButton(getResources().getString(R.string.Cancel), new DialogInterface.OnClickListener() {public void onClick(DialogInterface dialog, int id) {dialog.cancel();
-                    System.exit(0);}});
+                    /*System.exit(0);*/onBackPressed();}});
                 builder.show();
 
             } else {
@@ -242,6 +263,7 @@ public class QuranDataActivity extends Activity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             if (aBoolean) {
+                Log.i("Broadcast", "aBoolean");
                 downloadInformation.setText(getString(R.string.Done));
                 downloadDialog();
             } else

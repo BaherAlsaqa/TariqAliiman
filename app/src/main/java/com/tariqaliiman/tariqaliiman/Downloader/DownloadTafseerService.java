@@ -53,7 +53,7 @@ public class DownloadTafseerService extends Service {
                 downloadManager.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "", downloadLocation);
         }
 
-        return START_NOT_STICKY;
+        return START_STICKY;//change from START_NOT_STICKY to START_STICKY to continue downlaod
     }
 
     /**

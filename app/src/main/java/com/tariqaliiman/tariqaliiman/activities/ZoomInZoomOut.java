@@ -50,7 +50,7 @@ public class ZoomInZoomOut extends Activity implements View.OnTouchListener
 
             Picasso.get().load(urlImage).into(imageView);
 
-            imageView.setOnTouchListener(this);
+//            imageView.setOnTouchListener(this);
         }
     }
 

@@ -746,9 +746,10 @@ public class QuranPageReadActivity extends AppCompatActivity implements SensorEv
 
         page = new DatabaseAccess().getPageInfo((604 - position));
         List page1 = new DatabaseAccess().getAllQuarters();
-
+        String currentLanguage = Resources.getSystem().getConfiguration().locale.getLanguage();
         //load sura information depend on application language
-        if (AppPreference.isArabicMood(this) == true) {
+//        if (AppPreference.isArabicMood(this) == true) {
+        if (currentLanguage.equals("ar")){
             sorahTitle.setText(getResources().getString(R.string.sora) + " " + page.soraName);
             soraName.setText(getResources().getString(R.string.sora) + " " + page.soraName);
             lastSoraName = page.soraName;
@@ -803,7 +804,7 @@ public class QuranPageReadActivity extends AppCompatActivity implements SensorEv
                         Toast.makeText(QuranPageReadActivity.this, getString(R.string.hezb) + " " + new DatabaseAccess().getPageHezb(page.pageNumber), Toast.LENGTH_SHORT).show();
                     } else {
 
-                        Toast.makeText(QuranPageReadActivity.this, "Juz' " + page.jozaNumber, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(QuranPageReadActivity.this, getString(R.string.juza)+"'"+ page.jozaNumber, Toast.LENGTH_SHORT).show();
                         juzNumber = page.jozaNumber;
                     }
 //        Toast.makeText(QuranPageReadActivity.this," ¼"+ getString(R.string.hezb)+" "+new DatabaseAccess().getPageHezb(page.pageNumber), Toast.LENGTH_SHORT).show();

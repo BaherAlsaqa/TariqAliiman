@@ -203,6 +203,8 @@ public class MenuActivity extends AppCompatActivity {
 
         appSharedPreferences = new AppSharedPreferences(getApplicationContext());
 
+        appSharedPreferences.writeBoolean("download_on_destroy", true);
+
         n = appSharedPreferences.readBoolean(Contains.notifi_helper);
         if (n) {
             Log.d(Contains.log+"notifi", "Notification true");
