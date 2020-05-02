@@ -122,8 +122,10 @@ public class SalaatTimesFragment extends Fragment implements Constants {
         String fajrV = prayerTimes.get(String.valueOf(fajr.getTag()));
         assert fajrV != null;
         String t = getPearerTime(fajrV);
+        Log.d(Constants.log + "t", "t = " + t);
         String[] ts = t.split(":", 2);
         Log.d(Constants.log + "ts[0]", "ts[0] = " + ts[0]);
+        Log.d(Constants.log + "ts[1]", "ts[1] = " + ts[1]);
         if (Integer.parseInt(ts[1]) < 0)
             fajr4.setText(getString(R.string.elapsedtime));
         else
@@ -185,7 +187,7 @@ public class SalaatTimesFragment extends Fragment implements Constants {
         }
     }
 
-    private String getPearerTime(String timeV) {
+    /*private String getPearerTime(String timeV) {
         int hours = 0;
         int mins = 0;
         String[] ampm = timeV.split(" ", 2);
@@ -207,11 +209,11 @@ public class SalaatTimesFragment extends Fragment implements Constants {
 
             assert date24 != null;
             String time24 = displayFormat.format(date24);
-            /*java.text.DateFormat dateFormat = DateFormat.getDateFormat(getActivity());
+            *//*java.text.DateFormat dateFormat = DateFormat.getDateFormat(getActivity());
 
             Date date24 = dateFormat.parse(timeV);
             assert date24 != null;
-            String time24 = dateFormat.format(date24);*/
+            String time24 = dateFormat.format(date24);*//*
 
             //    String[] ampm = result.split(" ", 2);
             String[] time = time24.split(":", 2);
@@ -232,6 +234,63 @@ public class SalaatTimesFragment extends Fragment implements Constants {
 //    String result = hours +" "+ getString(R.string.hours) +" "+ mins +" "+ getString(R.string.minits);
         return hours + ":" + mins;
 
+    *//*String result = null;
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+      result =                                       // Text representing the value of our date-time object.
+              LocalTime.parse(                                  // Class representing a time-of-day value without a date and without a time zone.
+                      "03:30 AM" ,                                  // Your `String` input text.
+                      DateTimeFormatter.ofPattern(                  // Define a formatting pattern to match your input text.
+                              "hh:mm a" ,
+                              Locale.US                              // `Locale` determines the human language and cultural norms used in localization. Needed here to translate the `AM` & `PM` value.
+                      )                                             // Returns a `DateTimeFormatter` object.
+              )                                                 // Return a `LocalTime` object.
+                      .format( DateTimeFormatter.ofPattern("HH:mm") )   // Generate text in a specific format. Returns a `String` object.
+              ;
+    }*//*
+
+    *//*int hours = 0;
+    int mins = 0;
+    try {
+      Date date2 = new Date();
+      String[] ampm = timeV.split(" ", 2);
+      String[] time = ampm[0].split(":", 2);
+      Log.d(Constants.log, "time0 = "+time[0]+" time1 = "+time[1]);
+      String minutes = time[1].substring(0, 2);
+      Log.d(Constants.log+"time", "hour = "+time[0]+" | minutes = "+minutes);
+      Date date = getDate(Integer.parseInt(time[0]), Integer.parseInt(minutes));
+      @SuppressLint("SimpleDateFormat") java.text.DateFormat df = new java.text.SimpleDateFormat("hh:mm");
+      java.util.Date date1 = df.parse(time[0]+":"+time[1]);
+//      java.util.Date date2 = df.parse("19:05");
+      assert date1 != null;
+      long diff = date.getTime() - date2.getTime();
+      Log.d("baherr", getDate1(diff)+" time ="+timeV);
+      hours = (int) (diff/(1000 * 60 * 60));
+      mins = (int) (diff/(1000*60)) % 60;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }*//*
+
+//    return "";
+    }*/
+    private String getPearerTime(String timeV) {
+        String[] ampm = timeV.split(" ", 2);
+        String[] time1 = ampm[0].split(":", 2);
+        if (time1[0].length() == 1){
+            timeV = "0"+timeV.toUpperCase(Locale.US);
+        }else{
+            timeV = timeV.toUpperCase(Locale.US);
+        }
+        Date date1 = new Date();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm", Locale.US);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a", Locale.US);
+        Date date24 = null;
+        try {
+            date24 = parseFormat.parse(timeV);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        assert date24 != null;
+        String time24 = displayFormat.format(date24);
     /*String result = null;
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
       result =                                       // Text representing the value of our date-time object.
@@ -245,7 +304,18 @@ public class SalaatTimesFragment extends Fragment implements Constants {
                       .format( DateTimeFormatter.ofPattern("HH:mm") )   // Generate text in a specific format. Returns a `String` object.
               ;
     }*/
-
+//    String[] ampm = result.split(" ", 2);
+        assert time24 != null;
+        String[] time = time24.split(":", 2);
+        Log.d(Constants.log, "time0 = "+time[0]+" time1 = "+time[1]);
+        String minutes = time[1].substring(0, 2);
+        Log.d(Constants.log+"time", "hour = "+time[0]+" | minutes = "+minutes);
+        Date date = getDate(Integer.parseInt(time[0]), Integer.parseInt(minutes));
+        long mills =  date.getTime() - date1.getTime();
+        Log.d(Constants.log+"Data1", ""+date1.getTime());
+        Log.d(Constants.log+"Data", ""+date.getTime());
+        int hours = (int) (mills/(1000 * 60 * 60));
+        int mins = (int) (mills/(1000*60)) % 60;
     /*int hours = 0;
     int mins = 0;
     try {
@@ -267,7 +337,9 @@ public class SalaatTimesFragment extends Fragment implements Constants {
     } catch (ParseException e) {
       e.printStackTrace();
     }*/
-
+        Log.d(Constants.log+"result", "h = "+hours+" m = "+mins);
+//        String result = hours +" "+ getString(R.string.hours) +" "+ mins +" "+ getString(R.string.minits);
+        return hours + ":" + mins;
 //    return "";
     }
 

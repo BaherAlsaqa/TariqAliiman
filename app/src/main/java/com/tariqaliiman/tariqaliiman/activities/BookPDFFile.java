@@ -95,14 +95,35 @@ public class BookPDFFile extends AppCompatActivity implements OnPageChangeListen
                 getString(R.string.book_folder_path) +
                 "/"+pdfFileName.split("/")[1]);
 
-        try {
+        pdfView.fromFile(pdfFile)
+                .enableSwipe(true) // allows to block changing pages using swipe
+                .swipeHorizontal(true)
+                .defaultPage(pageNumber)
+                .enableAnnotationRendering(false) // render annotations (such as comments, colors or forms)
+                .password(null)
+                .scrollHandle(null)
+                .enableAntialiasing(true)
+                .spacing(5)
+                .autoSpacing(false)
+                .pageFitPolicy(FitPolicy.WIDTH)
+                .pageSnap(true) // snap pages to screen boundaries
+                .pageFling(false) // make a fling change only a single page like ViewPager
+                .nightMode(false) // toggle night mode
+                .onPageChange(BookPDFFile.this)
+                .enableAnnotationRendering(true)
+                .onLoad(BookPDFFile.this)
+                .scrollHandle(new DefaultScrollHandle(BookPDFFile.this))
+                .onPageError(BookPDFFile.this)
+                .load();
+
+        /*try {
             progress.setVisibility(View.VISIBLE);
             Log.d(Constants.log+"pdf", "pdf url = "+Constants.pdfURL+pdfFileName);
             new RetrievePdfStream().execute(Constants.pdfURL+pdfFileName);
         } catch (Exception e) {
             e.printStackTrace();
             Log.d(Constants.log+"pdf", "pdf url catch = "+Constants.pdfURL+pdfFileName);
-        }
+        }*/
         /*Log.d(Constants.log, "URL = "+Constants.pdfURL+pdfFileName);
         progressBar.setVisibility(View.VISIBLE);
         webView.getSettings().setJavaScriptEnabled(true);
