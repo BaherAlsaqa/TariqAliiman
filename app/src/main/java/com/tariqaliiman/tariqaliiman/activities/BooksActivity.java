@@ -26,6 +26,8 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.Contains;
 import com.tariqaliiman.tariqaliiman.Models.books.Book;
@@ -75,6 +77,9 @@ public class BooksActivity extends AppCompatActivity {
     private View noInternet, emptyData, error;
     String search = "";
 
+    private int x = 0;
+    private InterstitialAd mInterstitialAd1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +102,36 @@ public class BooksActivity extends AppCompatActivity {
         isLastPage = false;
         currentPage = PAGE_START;
         ////////////////////////////
+
+        // Initialize Calss Mobile Ads
+        MobileAds.initialize(this, getString(R.string.IDAPP));
+
+        // Interstitial Ads
+        mInterstitialAd1 = new InterstitialAd(this);
+        mInterstitialAd1.setAdUnitId(getString(R.string.mainbookenter));
+        mInterstitialAd1.loadAd(new AdRequest.Builder()
+                .build());
+
+        mInterstitialAd1.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Log.d("log" + "132", "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Log.d("log" + "132", "onAdFailedToLoad = " + i);
+//                Toast.makeText(MenuActivity.this, getString(R.string.problem), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                Log.d("log" + "132", "onAdClosed");
+            }
+        });
 
         LayoutInflater inflator = LayoutInflater.from(this);
         View v = inflator.inflate(R.layout.titleview, null);
@@ -171,6 +206,23 @@ public class BooksActivity extends AppCompatActivity {
             startActivity(new Intent(BooksActivity.this, FirstLevelActivity.class)
             .putExtra(Constants.bookId, item.getId())
             .putExtra(Constants.bookName, item.getNameAr()));
+
+                x = appSharedPreferences.readInteger(Contains.cont_ads);
+                Log.d(Contains.log + "7", "x = " + x);
+                appSharedPreferences.writeInteger(Contains.cont_ads, x + 1);
+                x = appSharedPreferences.readInteger(Contains.cont_ads);
+                if (x==1 | x==5) {
+                    // Show Interstitial Ads
+                    if (mInterstitialAd1.isLoaded()) {
+                        mInterstitialAd1.show();
+                        Log.d("log" + "131", "mInterstitialAd1.show. x = "+x);
+                    } else {
+                        Log.d("log" + "131", "The interstitial1 wasn't loaded yet. x = "+x);
+                    }
+                }else if (x>=9){
+                    Log.d("log" + "131", "x = "+x);
+                    appSharedPreferences.writeInteger(Contains.cont_ads, 0);
+                }
             }
         });
 
@@ -182,6 +234,51 @@ public class BooksActivity extends AppCompatActivity {
                         .putExtra(Constants.btitle, item.getNameAr())
                         .putExtra(Constants.bauther, item.getAuthorAr())
                         .putExtra(Constants.bdescription, item.getDescriptionAr()));
+
+                x = appSharedPreferences.readInteger(Contains.cont_ads);
+                Log.d(Contains.log + "7", "x = " + x);
+                appSharedPreferences.writeInteger(Contains.cont_ads, x + 1);
+                x = appSharedPreferences.readInteger(Contains.cont_ads);
+                if (x==1 | x==5) {
+                    // Show Interstitial Ads
+                    if (mInterstitialAd1.isLoaded()) {
+                        mInterstitialAd1.show();
+                        Log.d("log" + "131", "mInterstitialAd1.show. x = "+x);
+                    } else {
+                        Log.d("log" + "131", "The interstitial1 wasn't loaded yet. x = "+x);
+                    }
+                }else if (x>=9){
+                    Log.d("log" + "131", "x = "+x);
+                    appSharedPreferences.writeInteger(Contains.cont_ads, 0);
+                }
+            }
+        });
+
+        // View Ads
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(getString(R.string.mainBooks));
+        adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        adView.loadAd(adRequest);
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Log.d("logads", "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Log.d("logfailed", "onAdFailedToLoad = " + i);
+            }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                Log.d("logonadclosed", "onAdClosed");
             }
         });
 

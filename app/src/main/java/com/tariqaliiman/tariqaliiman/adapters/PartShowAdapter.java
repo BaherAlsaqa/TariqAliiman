@@ -120,8 +120,14 @@ public class PartShowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-
-        return items.size();
+        int soraSize = 0;
+        try {
+            if (items != null)
+                soraSize = items.size();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return soraSize;
 
     }
 

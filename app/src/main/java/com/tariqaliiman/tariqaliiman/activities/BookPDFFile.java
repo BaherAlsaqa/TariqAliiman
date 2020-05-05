@@ -166,8 +166,8 @@ public class BookPDFFile extends AppCompatActivity implements OnPageChangeListen
         // View Ads
         AdView adView = new AdView(this);
         adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId(getString(R.string.mainBanner3));
-        adView = findViewById(R.id.adView1);
+        adView.setAdUnitId(getString(R.string.pdfbookbanner));
+        adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
         adView.loadAd(adRequest);

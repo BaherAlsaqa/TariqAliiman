@@ -21,7 +21,7 @@ import java.util.List;
  * Service class to download file
  */
 public class DownloadService extends Service {
-    private DownloadManager downloadManager ;
+    private DownloadManager downloadManager;
     AppSharedPreferences appSharedPreferences;
 
     @Nullable
@@ -40,24 +40,29 @@ public class DownloadService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        appSharedPreferences = new AppSharedPreferences(getBaseContext());
-        AppPreference.Downloading(true);
-        Bundle extras = intent.getExtras();
-        String downloadURL = extras.getString(AppConstants.Download.DOWNLOAD_URL);
-        String downloadLocation = extras.getString(AppConstants.Download.DOWNLOAD_LOCATION);
-        int type = extras.getInt(AppConstants.Download.TYPE , -1);
-        List<String> downloadLinks = extras.getStringArrayList(AppConstants.Download.DOWNLOAD_LINKS);
-        Log.d(Constants.log+"download", "service is running not sticky");
-        if(downloadLinks == null){
-            Log.d(Constants.log+"download", "downloadLinks == null");
-                downloadManager = new DownloadManager(this, true ,type);
-                downloadManager.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, downloadURL, downloadLocation);
-        } else{
-            Log.d(Constants.log+"download", "downloadLinks != null");
-                downloadManager = new DownloadManager(this, true, downloadLinks ,type);
-                downloadManager.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "", downloadLocation);
-        }
+        try {
+            appSharedPreferences = new AppSharedPreferences(getBaseContext());
+            AppPreference.Downloading(true);
+            Bundle extras = intent.getExtras();
+            assert extras != null;
+            String downloadURL = extras.getString(AppConstants.Download.DOWNLOAD_URL);
 
+            String downloadLocation = extras.getString(AppConstants.Download.DOWNLOAD_LOCATION);
+            int type = extras.getInt(AppConstants.Download.TYPE, -1);
+            List<String> downloadLinks = extras.getStringArrayList(AppConstants.Download.DOWNLOAD_LINKS);
+            Log.d(Constants.log + "download", "service is running not sticky");
+            if (downloadLinks == null) {
+                Log.d(Constants.log + "download", "downloadLinks == null");
+                downloadManager = new DownloadManager(this, true, type);
+                downloadManager.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, downloadURL, downloadLocation);
+            } else {
+                Log.d(Constants.log + "download", "downloadLinks != null");
+                downloadManager = new DownloadManager(this, true, downloadLinks, type);
+                downloadManager.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "", downloadLocation);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return START_STICKY;//change from START_NOT_STICKY to START_STICKY to continue downlaod
     }
 
@@ -73,10 +78,14 @@ public class DownloadService extends Service {
         }
         AppPreference.Downloading(false);*/
         appSharedPreferences.writeBoolean("download_on_destroy", false);
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction("restartservice");
-        broadcastIntent.setClass(DownloadService.this, Restarter.class);
-        this.sendBroadcast(broadcastIntent);
+        boolean download_complete = appSharedPreferences.readBoolean("download_complete");
+        if (!download_complete) {
+            Log.d(Constants.log+"ddd", "if (!download_complete)");
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.setAction("restartservice");
+            broadcastIntent.setClass(DownloadService.this, Restarter.class);
+            this.sendBroadcast(broadcastIntent);
+        }
     }
 
 

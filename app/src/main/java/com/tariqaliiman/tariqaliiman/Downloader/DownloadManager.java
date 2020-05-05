@@ -29,6 +29,7 @@ import com.tariqaliiman.tariqaliiman.Utilities.AppConstants;
 import com.tariqaliiman.tariqaliiman.Utilities.Settingsss;
 import com.tariqaliiman.tariqaliiman.Utilities.UnZipping;
 import com.tariqaliiman.tariqaliiman.activities.QuranDataActivity;
+import com.tariqaliiman.tariqaliiman.utils.AppSharedPreferences;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -77,6 +78,7 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
     private OkHttpClient mOkHttpClient;
     int flag=0;
     String TAG="StopDownloading";
+    private AppSharedPreferences appSharedPreferences;
 
     /**
      * Class constructor. for download manager
@@ -165,6 +167,8 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
         notificationPending = PendingIntent.getActivity(context, 0,
                 openApplication, 0);
         aboveLollipopFlag = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+
+        appSharedPreferences = new AppSharedPreferences(context);
 
     }
 
@@ -467,6 +471,8 @@ public class DownloadManager extends AsyncTask<String, Long, Boolean> {
                                 context.getString(R.string.download_complete) :
                                 context.getString(R.string.download_failed_connection_lost)
                         , Toast.LENGTH_LONG).show();
+                appSharedPreferences.writeBoolean("download_on_destroy", false);
+                appSharedPreferences.writeBoolean("download_complete", true);
             }
             //pass the download statue to notification
             if (notificationDownloaderFlag) {

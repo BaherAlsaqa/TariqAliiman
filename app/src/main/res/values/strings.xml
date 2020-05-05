@@ -51,6 +51,17 @@
     <string name="mainBanner3">ca-app-pub-7920152555847022/5439075465</string>
     <string name="mainBanner4">ca-app-pub-7920152555847022/7737935741</string>
     <string name="Banner5">ca-app-pub-7920152555847022/8603481150</string>
+<!--    ///////////////////////////-->
+    <string name="mainBooks">ca-app-pub-7920152555847022/1688243466</string>
+    <string name="booksbanner">ca-app-pub-7920152555847022/6848522060</string>
+    <string name="doorsbanner">ca-app-pub-7920152555847022/5535440397</string>
+    <string name="hadeethsbanner">ca-app-pub-7920152555847022/2717705361</string>
+    <string name="mainbookenter">ca-app-pub-7920152555847022/8173760764</string>
+    <string name="booksenter">ca-app-pub-7920152555847022/4195466234</string>
+    <string name="doorsenter">ca-app-pub-7920152555847022/7586888669</string>
+    <string name="hadeethsenter">ca-app-pub-7920152555847022/4042944060</string>
+    <string name="pdfbookbanner">ca-app-pub-7920152555847022/9091542023</string>
+    <string name="contactusbanner">ca-app-pub-7920152555847022/2322953690</string>
     <string name="setting">إعداد الإشعارات</string>
     <string name="setting_notifi">إيقاف تشغيل الإشعارات</string>
     <!--    <string name="mainBanner">ca-app-pub-3940256099942544/6300978111</string>-->

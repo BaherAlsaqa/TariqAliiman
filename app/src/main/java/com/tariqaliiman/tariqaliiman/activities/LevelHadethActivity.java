@@ -26,6 +26,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.tariqaliiman.tariqaliiman.Constants;
 import com.tariqaliiman.tariqaliiman.Contains;
 import com.tariqaliiman.tariqaliiman.Database.AppPreference;
@@ -81,6 +87,9 @@ public class LevelHadethActivity extends AppCompatActivity {
     private static final int REQUEST_WRITE_STORAGE = 112;
     private String search = "";
 
+    private int x = 0;
+    private InterstitialAd mInterstitialAd1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +113,36 @@ public class LevelHadethActivity extends AppCompatActivity {
         currentPage = PAGE_START;
         ////////////////////////////
 
+        // Initialize Calss Mobile Ads
+        MobileAds.initialize(this, getString(R.string.IDAPP));
+
+        // Interstitial Ads
+        mInterstitialAd1 = new InterstitialAd(this);
+        mInterstitialAd1.setAdUnitId(getString(R.string.hadeethsenter));
+        mInterstitialAd1.loadAd(new AdRequest.Builder()
+                .build());
+
+        mInterstitialAd1.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Log.d("log" + "132", "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Log.d("log" + "132", "onAdFailedToLoad = " + i);
+//                Toast.makeText(MenuActivity.this, getString(R.string.problem), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                Log.d("log" + "132", "onAdClosed");
+            }
+        });
+
         swiperefresh.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
 
 //        apiInterface = APIClient.getClient().create(APIInterface.class);
@@ -113,6 +152,8 @@ public class LevelHadethActivity extends AppCompatActivity {
         booksArrayList = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         appSharedPreferences = new AppSharedPreferences(LevelHadethActivity.this);
+
+        appSharedPreferences.writeBoolean("download_on_destroy", true);
 
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -193,6 +234,52 @@ public class LevelHadethActivity extends AppCompatActivity {
                     Log.d("baherdb", "(hasPermission)");
                     validateFilesAndDownload(pageNumber, pdfFile);
                 }
+
+                x = appSharedPreferences.readInteger(Contains.cont_ads);
+                Log.d(Contains.log + "7", "x = " + x);
+                appSharedPreferences.writeInteger(Contains.cont_ads, x + 1);
+                x = appSharedPreferences.readInteger(Contains.cont_ads);
+                if (x==1 | x==5) {
+                    // Show Interstitial Ads
+                    if (mInterstitialAd1.isLoaded()) {
+                        mInterstitialAd1.show();
+                        Log.d("log" + "131", "mInterstitialAd1.show. x = "+x);
+                    } else {
+                        Log.d("log" + "131", "The interstitial1 wasn't loaded yet. x = "+x);
+                    }
+                }else if (x>=9){
+                    Log.d("log" + "131", "x = "+x);
+                    appSharedPreferences.writeInteger(Contains.cont_ads, 0);
+                }
+
+            }
+        });
+
+        // View Ads
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(getString(R.string.hadeethsbanner));
+        adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        adView.loadAd(adRequest);
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Log.d("logads", "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Log.d("logfailed", "onAdFailedToLoad = " + i);
+            }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                Log.d("logonadclosed", "onAdClosed");
             }
         });
 

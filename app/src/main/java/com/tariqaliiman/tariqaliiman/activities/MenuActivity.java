@@ -249,7 +249,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), BooksActivity.class));
-                /*x = appSharedPreferences.readInteger(Contains.cont_ads);
+                x = appSharedPreferences.readInteger(Contains.cont_ads);
                 Log.d(Contains.log + "7", "x = " + x);
                 appSharedPreferences.writeInteger(Contains.cont_ads, x + 1);
                 x = appSharedPreferences.readInteger(Contains.cont_ads);
@@ -264,7 +264,7 @@ public class MenuActivity extends AppCompatActivity {
                 }else if (x>=9){
                     Log.d("log" + "131", "x = "+x);
                     appSharedPreferences.writeInteger(Contains.cont_ads, 0);
-                }*/
+                }
             }
         });
 

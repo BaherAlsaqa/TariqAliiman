@@ -16,6 +16,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.tariqaliiman.tariqaliiman.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,6 +53,34 @@ public class SendEmailContactUs extends AppCompatActivity {
             public void onClick(View view) {
                 sendEmail(subject.getText().toString(),
                         message.getText().toString());
+            }
+        });
+
+        // View Ads
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(getString(R.string.contactusbanner));
+        adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        adView.loadAd(adRequest);
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Log.d( "logads", "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Log.d("logfailed", "onAdFailedToLoad = " + i);
+            }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                Log.d("logonadclosed", "onAdClosed");
             }
         });
 

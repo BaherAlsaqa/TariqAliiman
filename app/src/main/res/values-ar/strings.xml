@@ -40,7 +40,7 @@
     <string name="app_name1">تطبيق طريق الايمان :</string>
     <string name="problem">هناك مشكلة تأكد من الاتصال بالانترنت</string>
     <string name="IDAPP">ca-app-pub-7920152555847022~3478755400</string>
-    <!--<string name="mainBanner">ca-app-pub-7920152555847022/9953035540</string>
+    <string name="mainBanner">ca-app-pub-7920152555847022/9953035540</string>
     <string name="inter1">ca-app-pub-7920152555847022/4672788703</string>
     <string name="inter2">ca-app-pub-7920152555847022/1855053678</string>
     <string name="inter3">ca-app-pub-7920152555847022/4728629029</string>
@@ -50,10 +50,21 @@
     <string name="mainBanner2">ca-app-pub-7920152555847022/3990262421</string>
     <string name="mainBanner3">ca-app-pub-7920152555847022/5439075465</string>
     <string name="mainBanner4">ca-app-pub-7920152555847022/7737935741</string>
-    <string name="Banner5">ca-app-pub-7920152555847022/8603481150</string>-->
+    <string name="Banner5">ca-app-pub-7920152555847022/8603481150</string>
+<!--    //////////-->
+    <string name="mainBooks">ca-app-pub-7920152555847022/1688243466</string>
+    <string name="booksbanner">ca-app-pub-7920152555847022/6848522060</string>
+    <string name="doorsbanner">ca-app-pub-7920152555847022/5535440397</string>
+    <string name="hadeethsbanner">ca-app-pub-7920152555847022/2717705361</string>
+    <string name="pdfbookbanner">ca-app-pub-7920152555847022/9091542023</string>
+    <string name="contactusbanner">ca-app-pub-7920152555847022/2322953690</string>
+    <string name="mainbookenter">ca-app-pub-7920152555847022/8173760764</string>
+    <string name="booksenter">ca-app-pub-7920152555847022/4195466234</string>
+    <string name="doorsenter">ca-app-pub-7920152555847022/7586888669</string>
+    <string name="hadeethsenter">ca-app-pub-7920152555847022/4042944060</string>
     <string name="setting">إعداد الإشعارات</string>
     <string name="setting_notifi">إيقاف تشغيل الإشعارات</string>
-    <string name="mainBanner">ca-app-pub-3940256099942544/6300978111</string>
+    <!--<string name="mainBanner">ca-app-pub-3940256099942544/6300978111</string>
     <string name="inter1">ca-app-pub-3940256099942544/1033173712</string>
     <string name="inter2">ca-app-pub-3940256099942544/1033173712</string>
     <string name="inter3">ca-app-pub-3940256099942544/1033173712</string>
@@ -64,6 +75,17 @@
     <string name="mainBanner3">ca-app-pub-3940256099942544/6300978111</string>
     <string name="mainBanner4">ca-app-pub-3940256099942544/6300978111</string>
     <string name="Banner5">ca-app-pub-3940256099942544/6300978111</string>
+&lt;!&ndash;    ////////////////////////&ndash;&gt;
+    <string name="mainBooks">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="booksbanner">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="doorsbanner">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="hadeethsbanner">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="pdfbookbanner">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="contactusbanner">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="mainbookenter">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="booksenter">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="doorsenter">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="hadeethsenter">ca-app-pub-3940256099942544/1033173712</string>-->
     <integer-array name="muslim_ids">
         <item>1</item><item>2</item><item>3</item><item>4</item><item>5</item><item>6</item><item>7</item><item>8</item><item>9</item>
         <item>10</item><item>11</item><item>12</item><item>13</item><item>14</item><item>15</item><item>16</item><item>17</item><item>18</item>

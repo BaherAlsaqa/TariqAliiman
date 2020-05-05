@@ -120,7 +120,8 @@ public class DownloadPDFDataActivity extends Activity {
      */
     private void downloadDialog() {
         int internetStatus = Settingsss.checkInternetStatus(this);
-        if (!Settingsss.isMyServiceRunning(DownloadPDFDataActivity.this, DownloadService.class)) {
+        boolean downloadOnDestroy = appSharedPreferences.readBoolean("download_on_destroy");
+        if (!Settingsss.isMyServiceRunning(DownloadPDFDataActivity.this, DownloadService.class) && downloadOnDestroy) {
             if (internetStatus > 0) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);

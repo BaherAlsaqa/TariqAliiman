@@ -200,7 +200,7 @@ public class QuranPageFragment extends Fragment {
         protected Bitmap doInBackground(Void... params) {
             File imageFile;
 
-            if (soraCurrentPage > 9 && soraCurrentPage < 99) {
+            if (soraCurrentPage > 9 && soraCurrentPage <= 99) {
                 imageFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +
                         "/" + getResources().getString(R.string.app_folder_path) + "/quranpages_" +
                         AppPreference.getScreenResolution() + "/images/page0" + soraCurrentPage + ".png");
